@@ -1,0 +1,18 @@
+# ............................................................
+# Contour Lines 
+# Geprüft am 06.12.2019
+# Checked & Updated 3.12.2024
+# ............................................................
+# Contours take their name from the elevation setting
+# Using ele>0 only avoids useless lines at the ocean, but
+# we will not get lines for deep canyons, too. So only ignore
+# the 0 contour line.
+# ............................................................
+contour=elevation & ele ~ '\d*[123456789]00' & (ele > 0 | ele < 0)	# match 1 or more repetition digits 100 200 300 ...
+ 	{ name '${ele|conv:m=>ft}';  }
+    [0x21 resolution 21] 
+
+## multiples of 50m - can't work by now as I have 20m contour lines - ok so!
+#contour=elevation & ele ~ '\d*[5]0'# match 1 or more repetition digits 100 150 200 250 
+#    { name '${ele|conv:m=>ft}'; }
+#    [0x20 resolution 24]

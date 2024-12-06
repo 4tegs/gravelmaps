@@ -1,0 +1,113 @@
+﻿# ............................................................
+# This is the default mkgmap style file for converting closed OSM ways
+# into Garmin polygons.
+# 10.12.2019 
+#
+#	25.9.2020	Militärgelände Hochwald in den Vogesen wird nicht dargestellt weil es auch als tourism=attraction geflaggt ist.
+#			    	Lösung: Setze hinterm Gardasee eine Abfrage für Militärgelände und Tourism ein.
+#	31.12.2020	Set the international names. Moved inc/names section from after leisure to 1st line
+#  20.09.2021  Reworked to fit better for touristic use and increased visibility
+# Checked & Updated 3.12.2024
+#
+# ............................................................
+
+include 'inc/name';
+include 'inc/water_polygons';
+
+addr:housenumber=* {set mkgmap:execute_finalize_rules=true}
+
+leisure=* & sport=* & name=* { set name='${name} (${sport})' }
+leisure=* & sport=* & name!=* { add name='${sport}' }
+
+aeroway=airport [0x07 resolution 20]
+aeroway=aerodrome [0x07 resolution 20]
+aeroway=runway {name '${ref}'} [0x0e resolution 20]
+(aeroway=taxiway | aeroway=taxilane) {name '${ref}'} [0x0e resolution 24]
+aeroway=heliport [0x07 resolution 20]
+aeroway=helipad [0x0e resolution 22]
+
+amenity=kindergarten [0x0a resolution 22]
+amenity=cafe | amenity=fast_food | amenity=restaurant | amenity=food_court [0x08 resolution 22]
+amenity=college [0x0a resolution 22]
+parking=underground | parking=multi-storey [0x06 resolution 22]
+amenity=parking | parking=surface [0x05 resolution 22]
+amenity=prison [0x04 resolution 22]
+amenity=school [0x0a resolution 22]
+# amenity=supermarket is superceded by shop=supermarket or landuse=retail
+amenity=supermarket [0x08 resolution 22]
+amenity=university [0x0a resolution 21]
+
+healthcare=hospital | amenity=hospital | amenity=clinic [0x0b resolution 22]
+healthcare=* | amenity=dentist | amenity=doctors | amenity=nursing_home
+[0x0b resolution 23]
+
+# .....................
+# Nature reserves
+# .....................
+include "inc/nature_reserves";
+
+# leisure=common [0x17 resolution 24]
+# leisure=garden [0x17 resolution 24]
+leisure=park [0x17 resolution 22]
+# leisure=playground [0x17 resolution 22]
+
+# squares and plazas
+# other highways that have area=yes set must be parking lots
+highway=* & (area=yes | mkgmap:mp_created=true) [0x05 resolution 22]
+
+historic=museum | historic=memorial 			[0x10f00 resolution 22]
+historic=archaeological_site | historic=ruins 	[0x10f00 resolution 22]
+
+# building tag should be last
+# Re-Added at 23.Feb.2020 and must be done here. Won't fully work in landuse_polygons.
+# See comment there 
+(building=* | amenity=*) & area!=no & amenity!=grave_yard [0x13 resolution 24]
+
+# next is due to Gardasee is set as Tourism=Yes
+tourism=* & (natural=water | water=lake) {set name= '$(name) (${name:de|not-equal:name})'  | '${name}' ;} [0x3d resolution 24-16]
+
+# See change for 25.09.2020
+landuse=military & tourism=* [0x04 resolution 24-19]
+
+# Lookup Dunes or Deserts. Must be set before 
+# 		tourism=* & area!=no & waterway!=* [0x10f01 resolution 24] 
+# as this leads to white areas only for Erg Chebbi etc. 
+desert=erg & (natural=sand | surface=sand) [0x10F08 resolution 24-16] 
+natural=sand | surface=sand [0x10F08 resolution 24-16] 
+natural=dune [0x10F08 resolution 24-21] 
+
+# looking for campsites that are not available as a point but as an area. 18.01.2019 added
+# This in turn knocks me out of some military areas such as Hochwald in the Vosges Mountains
+tourism=camp_site [0x10F02 resolution 24-20] 
+tourism=* & area!=no & waterway!=* [0x10f01 resolution 24]
+tourism=picnic_site [0x10F03 resolution 24]
+
+# man_made can be used on areas or lines
+man_made=* & area!=no
+& (man_made!=door & man_made!=embankment & man_made!=breakwater & man_made!=dew_pond
+   & man_made!=cable_line & man_made!=cutline & man_made!=cutting
+   & man_made!=levee & man_made!=trench
+   & man_made!=groyne & man_made!=reinforced_slope)
+[0x13 resolution 24]
+
+man_made=* & area=yes							[0x13 resolution 24]
+
+include 'inc/landuse_polygons';
+# render small named islands 
+# As Isle of man, Great Britain, Ireland are marked as islands, we can exclude them 
+# 
+place=island & name=* & name!="Great Britain" & name!="Ireland"  & area_size() < 20000000  	[0x54 resolution 19]
+place=island & name=* & name!="Great Britain" & name!="Ireland" 						  	[0x54 resolution 19]
+place=islet & name=* 																		[0x54 resolution 20]
+
+# place=island & name=* & area_size() < 20000000 	[0x54 resolution 19]
+# place=island & name=*							[0x54 resolution 19]
+# place=islet & name=* 							[0x54 resolution 20]
+
+<finalize>
+# The finalizer section is executed for each element when a rule with an element type matches
+
+# we need addrees info from buildings for the address search
+include 'inc/address';
+
+name=* { name '${name}' }

@@ -1,0 +1,265 @@
+# -------------------------------------------------------------------
+# Nature reserves
+# Checked & Updated 3.12.2024
+# -------------------------------------------------------------------
+#  Overpass Abfrage
+#  /*
+#  This shows the protected areas
+#  */
+#  
+#  [out:json];
+#  
+#  (
+#    // get cycle route relations
+#    way[boundary=protected_area]  ;
+#    way[protect_class=5]({{bbox}});
+#    
+#  );
+#  
+#  out body;
+#  >;
+#  out skel qt;
+#  
+# -------------------------------------------------------------------
+
+# .....................
+# Finde die großen Naturschutzgebiete im Meer und lösche diese
+# .....................
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) & (maritime=yes | protect_class=6 | national_park=marine) {deletealltags}
+(boundary=protected_area & name ="Sanctuaire Pelagos") {deletealltags}
+(boundary=protected_area & (name ="Parc naturel marin du Cap Corse et de l'Agriate" | name ="Réserve naturelle des Bouches de Bonifacio" | protection_title="parc naturel marin")) {deletealltags}
+(boundary=protected_area & (name ="Réserve naturelle des Bouches de Bonifacio" | protection_title="parc naturel marin")) {deletealltags}
+((name ="Zona C - Area Marina Protetta Penisola Del Sinis - Isola Di Mal Di Ventre") | (name="Riserva Naturale Marina Isole Egadi")) {deletealltags}
+
+# Southeast Map: Greece Alonissos Island: Sea Nature Protection area overlays the island for too long
+(boundary=protected_area & protect_class=2 & (site_zone=A | site_zone=B)) {deletealltags}
+
+
+# Unbestimmte Schutzklasse
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class!=* & area_size()>10000000   {set name=''}               [0x11009   resolution 15-16 continue] 
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class!=* & area_size()>10000000   {set name='${name}'}        [0x11008   resolution 17-18 continue] 
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class!=* & area_size()>10000000   {set name=''}               [0x0D      resolution 19-21 continue]    
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class!=* & area_size()<10000001   {set name='${name}'}        [0x0D      resolution 22-23]                                 
+# .....................
+# Biosphären Kernzone; 
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=1a & area_size()>10000000   {set name=''}               [0x11009   resolution 15-16 continue] 
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=1a & area_size()>10000000   {set name='${name}'}        [0x11008   resolution 17-18 continue] 
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=1a & area_size()>10000000   {set name=''}               [0x0D      resolution 19-21 continue]    
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=1a & area_size()<10000001   {set name='${name}'}        [0x0D      resolution 22-23]                                 
+# .....................
+# Bewahrungszone; Das sollten eher kleine Freizeitgebiete sein 
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=1b & area_size()>10000000   {set name=''}               [0x11009   resolution 15-16 continue] 
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=1b & area_size()>10000000   {set name='${name}'}        [0x11008   resolution 17-18 continue] 
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=1b & area_size()>10000000   {set name=''}               [0x0D      resolution 19-21 continue]    
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=1b & area_size()<10000001   {set name='${name}'}        [0x0D      resolution 22-23]                                 
+# .....................
+# Réserve intégrale (sind ziemlich viele)
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=1 & area_size()>10000000    {set name=''}               [0x11009   resolution 15-16 continue] 
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=1 & area_size()>10000000    {set name='${name}'}        [0x11008   resolution 17-18 continue] 
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=1 & area_size()>10000000    {set name=''}               [0x0D      resolution 19-21 continue]    
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=1 & area_size()<10000001    {set name='${name}'}        [0x0D      resolution 22-23]                                 
+# .....................
+# Nationalpark
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=2 & area_size()>10000000    {set name=''}               [0x11009   resolution 15-16 continue] 
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=2 & area_size()>10000000    {set name='${name}'}        [0x11008   resolution 17-18 continue] 
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=2 & area_size()>10000000    {set name=''}               [0x14      resolution 19-21 continue]    
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=2 & area_size()<10000001    {set name='${name}'}        [0x14      resolution 22-23]                                 
+# .....................
+# Nature Monument (alles sehr klein)
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=3 & area_size()>10000000    {set name=''}               [0x11009   resolution 15-16 continue] 
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=3 & area_size()>10000000    {set name='${name}'}        [0x11008   resolution 17-18 continue] 
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=3 & area_size()>10000000    {set name=''}               [0x16      resolution 19-21 continue]    
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=3 & area_size()<10000001    {set name='${name}'}        [0x16      resolution 22-23]     
+# .....................
+# Nature Reserve
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=4 & area_size()>10000000    {set name=''}               [0x11009   resolution 15-16 continue] 
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=4 & area_size()>10000000    {set name='${name}'}        [0x11008   resolution 17-18 continue] 
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=4 & area_size()>10000000    {set name=''}               [0x11001   resolution 19-21 continue] 
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=4 & area_size()<10000001    {set name='${name}'}        [0x11001   resolution 22-23]  
+# .....................
+# Landscape Protection
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=5 & area_size()>10000000    {set name=''}               [0x11009   resolution 15-16 continue] 
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=5 & area_size()>10000000    {set name='${name}'}        [0x11008   resolution 17-18 continue] 
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=5 & area_size()>10000000    {set name=''}               [0x15      resolution 19-21 continue]    
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=5 & area_size()<10000001    {set name='${name}'}        [0x15      resolution 22-23 continue]    
+# .....................
+# Nature, Marine Parc
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=6 & area_size()>10000000    {set name=''}               [0x11009   resolution 15-16 continue] 
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=6 & area_size()>10000000    {set name='${name}'}        [0x11008   resolution 17-18 continue] 
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=6 & area_size()>10000000    {set name=''}               [0x11002   resolution 19-21 continue] 
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=6 & area_size()<10000001    {set name='${name}'}        [0x11002   resolution 22-23]  
+# .....................
+# Local Nature Reserve
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=7 & area_size()>10000000    {set name=''}               [0x11009   resolution 15-16 continue] 
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=7 & area_size()>10000000    {set name='${name}'}        [0x11008   resolution 17-18 continue] 
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=7 & area_size()>10000000    {set name=''}               [0x11003   resolution 19-21 continue] 
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=7 & area_size()<10000001    {set name='${name}'}        [0x11003   resolution 22-23]                                                                                                  
+# .....................
+# Trinkwasserschutz
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=12 & area_size()>10000000   {set name=''}               [0x11009   resolution 15-16 continue] 
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=12 & area_size()>10000000   {set name='${name}'}        [0x11008   resolution 17-18 continue] 
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=12 & area_size()>10000000   {set name=''}               [0x11002   resolution 19-21 continue] 
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=12 & area_size()<10000001   {set name='${name}'}        [0x11002   resolution 22-23]                                                                                                  
+# .....................
+# Bannwald
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=15 & area_size()>10000000   {set name=''}               [0x11009   resolution 15-16 continue] 
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=15 & area_size()>10000000   {set name='${name}'}        [0x11008   resolution 17-18 continue] 
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=15 & area_size()>10000000   {set name=''}               [0x11007   resolution 19-21 continue] 
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=15 & area_size()<10000001   {set name='${name}'}        [0x11007   resolution 22-23]                                                                                                  
+# ..................... 
+# Biosphere / Natura 2000   
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=97 & area_size()>10000000   {set name=''}               [0x11009   resolution 15-16 continue] 
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=97 & area_size()>10000000   {set name='${name}'}        [0x11008   resolution 17-18 continue] 
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=97 & area_size()>10000000   {set name=''}               [0x11005   resolution 19-21 continue] 
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=97 & area_size()<10000001   {set name='${name}'}        [0x11005   resolution 22-23]                                                                                                  
+# ..................... 
+# Biosphere 
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=98 & area_size()>10000000   {set name=''}               [0x11009   resolution 15-16 continue] 
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=98 & area_size()>10000000   {set name='${name}'}        [0x11008   resolution 17-18 continue] 
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=98 & area_size()>10000000   {set name=''}               [0x11004   resolution 19-21 continue] 
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=98 & area_size()<10000001   {set name='${name}'}        [0x11004   resolution 22-23]                                                                                                  
+# .....................
+# Not classified yet, but try to catch what may have been set wrong
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=99 & area_size()>10000000   {set name=''}               [0x11009   resolution 15-16 continue] 
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=99 & area_size()>10000000   {set name='${name}'}        [0x11008   resolution 17-18 continue] 
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=99 & area_size()>10000000   {set name=''}               [0x0D      resolution 19-21 continue]    
+(boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=99 & area_size()<10000001   {set name='${name}'}        [0x0D      resolution 22-23]             
+# .....................
+
+
+## .............................................
+#Entwicklung. Probleme bei NP im Meer!
+## .............................................
+# Größenbestimmungen wie sie Joris machte
+# #=======================================================================================
+# #BEGIN
+# #=======================================================================================
+# #By calculating the areasize we trigger the calculation of mkgmap:cache_area_size, which then can be used for further processing
+# (landuse = * | natural = * | amenity = * | man_made = * | military = * | leisure = * | tourism = * | boundary = * | power = *)  & area_size() > 0             {set jbmareasize = 24}
+# 
+# #This sections must be in both lines and polygons in order to work properly
+# mkgmap:cache_area_size >= 0               {set jbmareasize = 24 ; set jbmfontsize = small}
+# mkgmap:cache_area_size >= 2500            {set jbmareasize = 22}
+# mkgmap:cache_area_size >= 25000           {set jbmareasize = 20}
+# mkgmap:cache_area_size >= 125000          {set jbmareasize = 18 ; set jbmfontsize = normal}
+# mkgmap:cache_area_size >= 10000000         {set jbmareasize = 16 ; set jbmfontsize = large}
+# mkgmap:cache_area_size >= 100000000        {set jbmareasize = 14}
+# 
+
+# # Unbestimmte Schutzklasse
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class!=* & area_size()>10000000 {set name='${name}'}        [0x11009 resolution 15 continue]    
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class!=* & area_size()>10000000  {set name='${name}'}        [0x11008 resolution 16-17 continue] 
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class!=* & area_size()>10000000  {set name='${name}'}        [0x11008 resolution 18-18 continue] 
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class!=* & area_size()>10000000  {set name=''}               [0x0D resolution 19-21 continue]    
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class!=* & area_size()<10000001  {set name='${name}'}        [0x0D resolution 22-23]                                 
+# # .....................
+# # Biosphären Kernzone; 
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=1a & area_size()>10000000 {set name='${name}'}        [0x11009 resolution 15 continue]    
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=1a & area_size()>10000000  {set name='${name}'}        [0x11008 resolution 17-16 continue] 
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=1a & area_size()>10000000  {set name='${name}'}        [0x11008 resolution 18-18 continue] 
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=1a & area_size()>10000000  {set name=''}               [0x0D resolution 19-21 continue]    
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=1a & area_size()<10000001  {set name='${name}'}        [0x0D resolution 22-23]                                 
+# # .....................
+# # Bewahrungszone; Das sollten eher kleine Freizeitgebiete sein 
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=1b & area_size()>10000000 {set name='${name}'}        [0x11009 resolution 15 continue]    
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=1b & area_size()>10000000  {set name='${name}'}        [0x11008 resolution 17-16 continue]
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=1b & area_size()>10000000  {set name='${name}'}        [0x11008 resolution 18-18 continue]
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=1b & area_size()>10000000  {set name=''}               [0x0D resolution 19-21 continue]    
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=1b & area_size()<10000001  {set name='${name}'}        [0x0D resolution 22-23]                                 
+# # .....................
+# # Réserve intégrale (sind ziemlich viele)
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=1 & area_size()>10000000  {set name='${name}'}        [0x11009 resolution 15 continue]    
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=1 & area_size()>10000000   {set name='${name}'}        [0x11008 resolution 17-16 continue] 
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=1 & area_size()>10000000   {set name='${name}'}        [0x11008 resolution 18-18 continue] 
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=1 & area_size()>10000000   {set name=''}               [0x0D resolution 19-21 continue]    
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=1 & area_size()<10000001   {set name='${name}'}        [0x0D resolution 22-23]                                 
+# 
+# # .....................
+# # Nationalpark
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=2 & area_size()>10000000  {set name='${name}'}        [0x11009 resolution 15 continue]    
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=2 & area_size()>10000000   {set name='${name}'}        [0x11008 resolution 17-16 continue] 
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=2 & area_size()>10000000   {set name='${name}'}        [0x11008 resolution 18-18 continue] 
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=2 & area_size()>10000000   {set name=''}               [0x14 resolution 19-21 continue]    
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=2 & area_size()<10000001   {set name='${name}'}        [0x14 resolution 22-23]                                 
+# 
+# # .....................
+# # Nature Monument (alles sehr klein)
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=3 & area_size()>10000000  {set name='${name}'}        [0x11009 resolution 15 continue]    
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=3 & area_size()>10000000   {set name='${name}'}        [0x11008 resolution 17-16 continue] 
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=3 & area_size()>10000000   {set name='${name}'}        [0x11008 resolution 18-18 continue] 
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=3 & area_size()>10000000   {set name=''}               [0x16 resolution 19-21 continue]    
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=3 & area_size()<10000001   {set name='${name}'}        [0x16 resolution 22-23]     
+# 
+# # .....................
+# # Nature Reserve
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=4 & area_size()>10000000  {set name='${name}'}        [0x11009 resolution 15 continue]    
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=4 & area_size()>10000000   {set name='${name}'}        [0x11008 resolution 17-16 continue] 
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=4 & area_size()>10000000   {set name='${name}'}        [0x11008 resolution 18-18 continue] 
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=4 & area_size()>10000000   {set name=''}               [0x11001 resolution 19-21 continue] 
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=4 & area_size()<10000001   {set name='${name}'}        [0x11001 resolution 23-23]  
+# 
+# # .....................
+# # Landscape Protection
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=5 & area_size()>10000000  {set name='${name}'}        [0x11009 resolution 15 continue]    
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=5 & area_size()>10000000   {set name='${name}'}        [0x11008 resolution 17-16 continue] 
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=5 & area_size()>10000000   {set name='${name}'}        [0x11008 resolution 18-18 continue] 
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=5 & area_size()>10000000   {set name=''}               [0x15 resolution 19-21 continue]    
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=5 & area_size()<10000001   {set name='${name}'}        [0x15 resolution 21-21 continue]    
+# 
+# # .....................
+# # Nature, Marine Parc
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=6 & area_size()>10000000  {set name='${name}'}        [0x11009 resolution 15 continue]    
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=6 & area_size()>10000000   {set name='${name}'}        [0x11008 resolution 17-16 continue] 
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=6 & area_size()>10000000   {set name='${name}'}        [0x11008 resolution 18-18 continue] 
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=6 & area_size()>10000000   {set name=''}               [0x11002 resolution 19-21 continue] 
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=6 & area_size()<10000001   {set name='${name}'}        [0x11002 resolution 22-23]  
+#                                                                                                
+# # .....................
+# # Local Nature Reserve
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=7 & area_size()>10000000  {set name='${name}'}        [0x11009 resolution 15 continue]    
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=7 & area_size()>10000000   {set name='${name}'}        [0x11008 resolution 17-16 continue] 
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=7 & area_size()>10000000   {set name='${name}'}        [0x11008 resolution 18-18 continue] 
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=7 & area_size()>10000000   {set name=''}               [0x11003 resolution 19-21 continue] 
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=7 & area_size()<10000001   {set name='${name}'}        [0x11003 resolution 22-23]                                                                                                  
+# 
+# # .....................
+# # Trinkwasserschutz
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=12 & area_size()>10000000 {set name='${name}'}        [0x11009 resolution 15 continue]    
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=12 & area_size()>10000000  {set name='${name}'}        [0x11008 resolution 17-16 continue] 
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=12 & area_size()>10000000  {set name='${name}'}        [0x11008 resolution 18-18 continue] 
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=12 & area_size()>10000000  {set name=''}               [0x11002 resolution 19-21 continue] 
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=12 & area_size()<10000001  {set name='${name}'}        [0x11002 resolution 22-23]                                                                                                  
+# 
+# # .....................
+# # Bannwald
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=15 & area_size()>10000000 {set name='${name}'}        [0x11009 resolution 15 continue]    
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=15 & area_size()>10000000  {set name='${name}'}        [0x11008 resolution 17-16 continue] 
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=15 & area_size()>10000000  {set name='${name}'}        [0x11008 resolution 18-18 continue] 
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=15 & area_size()>10000000  {set name=''}               [0x11007 resolution 19-21 continue] 
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=15 & area_size()<10000001  {set name='${name}'}        [0x11007 resolution 22-23]                                                                                                  
+# 
+# # .....................
+# # Biosphere / Natura 2000
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=97 & area_size()>10000000 {set name='${name}'}        [0x11009 resolution 15 continue]    
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=97 & area_size()>10000000  {set name='${name}'}        [0x11008 resolution 17-16 continue] 
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=97 & area_size()>10000000  {set name='${name}'}        [0x11008 resolution 18-18 continue] 
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=97 & area_size()>10000000  {set name=''}               [0x11005 resolution 19-21 continue] 
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=97 & area_size()<10000001  {set name='${name}'}        [0x11005 resolution 22-23]                                                                                                  
+# 
+# # .....................
+# # Biosphere
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=98 & area_size()>10000000 {set name='${name}'}        [0x11009 resolution 15 continue]    
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=98 & area_size()>10000000  {set name='${name}'}        [0x11008 resolution 17-16 continue] 
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=98 & area_size()>10000000  {set name='${name}'}        [0x11008 resolution 18-18 continue] 
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=98 & area_size()>10000000  {set name=''}               [0x11004 resolution 19-21 continue] 
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=98 & area_size()<10000001  {set name='${name}'}        [0x11004 resolution 22-23]                                                                                                  
+# 
+# # .....................
+# # Not classified yet, but try to catch what may have been set wrong
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=99 & area_size()>10000000 {set name='${name}'}        [0x11009 resolution 15 continue]    
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=99 & area_size()>10000000  {set name='${name}'}        [0x11008 resolution 17-16 continue] 
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=99 & area_size()>10000000  {set name='${name}'}        [0x11008 resolution 18-18 continue] 
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=99 & area_size()>10000000  {set name=''}               [0x0D resolution 19-21 continue]    
+# (boundary=protected_area | boundary=national_park | leisure=nature_reserve) &  protect_class=99 & area_size()<10000001  {set name='${name}'}        [0x0D resolution 22-23]             
+# 
+# # .....................

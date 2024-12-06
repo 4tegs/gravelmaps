@@ -1,0 +1,72 @@
+# -------------------------------------------------------------------
+# Geprüft am 28.11.2019
+# Checked & Updated 3.12.2024
+#
+# Sets the maximum road speed based on the maxspeed tag.
+# In case mkgmap:road-speed-max is set the element road_speed is limited.
+#
+# road_class classification:
+# Setting this makes the line a "road" and it will be routable and can be part of an address search. It gives
+# the class of the road where class 4 is used for major roads that connect different parts of the country,
+# class 3 is used for roads that connect different regions, down to class 0 which is used for residential
+# streets and other roads that you would only use for local travel.
+# It is important for routing to work well that most roads are class 0 and there are fewer and fewer roads in
+# each of the higher classes.
+# 
+#   Class       Used as
+#   4        |  Major HW/Ramp
+#   3        |  Principal HW
+#   2        |  Arterial St / Other HW
+#   1        |  Roundabout / Collector
+#   0        |  Residential Street / Unpaved road / Trail
+# 
+# road_speed classification:
+# This keyword is used along with road_class to indicate that the line is a "road" that can be used for
+# routing and for address searches. It is an indication of how fast traffic on the road is. 0 is the slowest and 7 the fastest. 
+# This is not a speed limit and does not activate the maximum speed symbol on the newer
+# Garmin car navigation systems. The speed limits that Garmin knows are shown in the following table:
+# 
+# road_speed | highest speed
+#  7         | No speed limit
+#  6         | 70 mph / 110 km/h
+#  5         | 60 mph /  90 km/h
+#  4         | 50 mph /  80 km/h
+#  3         | 35 mph /  60 km/h
+#  2         | 25 mph /  40 km/h
+#  1         | 15 mph /  20 km/h
+#  0         |  3 mph /   5 km/h
+#
+# -------------------------------------------------------------------
+
+maxspeed=walk                   { set maxspeed=10 }
+maxspeed~'.*:living_street'     { set maxspeed=10 }
+
+maxspeed=RUS:urban               { set maxspeed=60 }
+maxspeed=UKR:urban               { set maxspeed=60 }
+maxspeed~'.*:urban'             { set maxspeed=50 }
+
+maxspeed=CHE:rural               { set maxspeed=80 }
+maxspeed=DEU:rural               { set maxspeed=100 }
+maxspeed=FRA:rural               { set maxspeed=80 }
+maxspeed~'.*:rural'             { set maxspeed=90 }
+
+maxspeed=DEU:trunk               { set maxspeed=130 }
+maxspeed~'.*:trunk'             { set maxspeed=100 }
+
+maxspeed=CHE:motorway            { set maxspeed=120 }
+maxspeed=NLD:motorway            { set maxspeed=100 }
+maxspeed~'.*:motorway'          { set maxspeed=130 }
+
+# delete maxspeed if we still cannot convert it to km/h
+maxspeed=* & maxspeedkmh()!=* { delete maxspeed }
+
+maxspeed=* & mkgmap:road-speed-max!=* & maxspeedkmh() <=  10 { set mkgmap:road-speed-max = 0 }
+maxspeed=* & mkgmap:road-speed-max!=* & maxspeedkmh() <=  25 { set mkgmap:road-speed-max = 1 }
+maxspeed=* & mkgmap:road-speed-max!=* & maxspeedkmh() <=  45 { set mkgmap:road-speed-max = 2 }
+maxspeed=* & mkgmap:road-speed-max!=* & maxspeedkmh() <=  60 { set mkgmap:road-speed-max = 3 }
+maxspeed=* & mkgmap:road-speed-max!=* & maxspeedkmh() <=  85 { set mkgmap:road-speed-max = 4 }
+maxspeed=* & mkgmap:road-speed-max!=* & maxspeedkmh() <= 100 { set mkgmap:road-speed-max = 5 }
+maxspeed=* & mkgmap:road-speed-max!=* & maxspeedkmh() <= 120 { set mkgmap:road-speed-max = 6 }
+maxspeed=* & mkgmap:road-speed-max!=* & maxspeedkmh() > 120 { set mkgmap:road-speed-max = 7 }
+# mkgmap:road-speed-max = 7 has no effect 
+#maxspeed=* & mkgmap:road-speed-max!=* { set mkgmap:road-speed-max = 7 }

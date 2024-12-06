@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../orux"
+		},
+		{
+			"path": "../Offroad"
+		},
+		{
+			"path": "../Street"
+		}
+	],
+	"settings": {}
+}

@@ -1,0 +1,26 @@
+﻿# ----------------------------------------------------------------
+# Enduro Style by Hans Straßgütl
+# 
+#  3.12.2024
+# ----------------------------------------------------------------
+# Version of the style itself
+#
+version=1.0
+
+summary {
+This is the 2024 style by Hans Straßgütl for the Enduro maps
+}
+description {
+This is the 2024 style by Hans Straßgütl for the Enduro maps
+ The style is a significant revision of the original style.
+ The main changes can be found in
+ * Routing / Lines: Are now set up in such a way that a finer distinction
+	distinction can be made between
+		- road
+		- Gravel (with car)
+		- Gravel easy with Enduro
+		- Grass / earth strenuous with Enduro
+		- Not passable
+ * Polygons
+	Are now clearly structured and no longer work on "chance"
+}

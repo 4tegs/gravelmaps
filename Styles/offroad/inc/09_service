@@ -1,0 +1,57 @@
+# ............................................................
+# Service: 	Erschließungsweg zu oder innerhalb von Einrichtungen wie Sportanlagen, Stränden, Autobahnraststätten oder allgemein zu Gebäuden. Wird auch für den 
+# 			Zugang zu Parkplätzen oder Recyclinghöfen benutzt. 
+#
+# Geprüft am 22.07.2020
+# Checked & Updated 3.12.2024
+# ............................................................
+#
+# .....................
+#  Paved first 
+# .....................
+# Paved kein Tunnel
+highway=service & mkgmap:unpaved!=1	& tunnel!=yes		[0x07 road_class=1 road_speed=2 resolution 24 continue] # 6 bit
+highway=service & mkgmap:unpaved!=1	& tunnel!=yes		[0x1000C resolution 23-23 continue] # 4 Bit
+highway=service & mkgmap:unpaved!=1	& tunnel!=yes		[0x1000C resolution 22-22 continue] # 4 Bit
+# Paved Tunnel
+highway=service & mkgmap:unpaved!=1	& tunnel=yes		[0x15 road_class=1 road_speed=2 resolution 24 continue] # 6 bit
+highway=service & mkgmap:unpaved!=1	& tunnel=yes		[0x10504 resolution 23-23 continue] # 4 Bit
+highway=service & mkgmap:unpaved!=1	& tunnel=yes		[0x1000C resolution 22-22 continue] # 4 Bit
+
+# .....................
+#  Unpaved
+# .....................
+# Unpaved kein Tunnel
+highway=service & mkgmap:unpaved=1	& tunnel!=yes		[0x0D road_class=0 road_speed=1 resolution 24 continue] # 6 bit
+highway=service & mkgmap:unpaved=1	& tunnel!=yes		[0x1010E resolution 23-23 continue]  # 4 Bit green colored
+highway=service & mkgmap:unpaved=1	& tunnel!=yes		[0x1010E resolution 22-22 continue]  # 4 Bit
+# Unpaved Tunnel
+highway=service & mkgmap:unpaved=1	& tunnel=yes		[0x15 road_class=0 road_speed=1 resolution 24 continue] # 6 bit
+highway=service & mkgmap:unpaved=1	& tunnel=yes		[0x10504 resolution 23-23 continue] # 4 Bit
+highway=service & mkgmap:unpaved=1	& tunnel=yes		[0x1010E resolution 22-22 continue]  # 4 Bit
+
+# .....................
+#  Bridges
+# .....................
+highway=service & bridge=yes 							[0x10103 resolution 24 continue] 	# 10 bit (je 1 Rand ; je 1 Abstand = 6 Innenraum)
+highway=service & bridge=yes 							[0x10104 resolution 23-23 continue] # 8 bit  (je 1 Rand ; je 1 Abstand = 4 Innenraum)
+
+# .....................
+#  Fords
+# .....................
+highway=service & ford=*           			    		[0x10403 resolution 24-23 continue] # 6 Innenraum
+
+# .....................
+# access=private
+# .....................
+highway=service & access=private						[0x1001E resolution 24-23 continue]
+
+# ....................................
+# Regional & International hiking network
+# ....................................
+highway=service & (network=lwn|network=rwn) {name '${PR}'} [0x10e02 resolution 22 continue]
+highway=service & (network=nwn|network=iwn) {name '${GR}'} [0x10e01 resolution 22 continue]
+# .....................
+#  Radwege
+# .....................
+highway=service & route_refbike=yes {name '${bikeref|highway-symbol:oval}'} [0x10e03 resolution 24-22]

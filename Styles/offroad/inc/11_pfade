@@ -1,0 +1,96 @@
+# ............................................................
+# Pfade
+#
+# ............................................................
+# 28.11.2019: Wieder reingenommen, diesmal für jede einzelne Straßentype extra
+# 8.7.2018: Wichtig - Fahrradkarte!
+# Wenn ich bei Path oder Pedestrian den Radweg überlagere löscht er seltsamerweise den ganzen Weg raus. 
+# Den Grund kann ich nicht finden, hängt aber mit Path 
+# und Cycleway zusammen!
+# Die Overlays werden bei jedem Strassentyp einzeln gesucht. Siehe in den jeweiligen INC files. 
+# overlay official bicycling road-network to avoid using it when planning an Enduro Route / Radwege
+#(highway=path & route_refbike=yes) {name '${bikeref|highway-symbol:oval}'} [0x10e03 resolution 24-21] 
+# ............................................................
+# 27.09.2020
+# Error: 
+# 	Warning: routable type 0x1a is used for non-routable line with level 0. This may break routing. Style file inc/11_pfade, line 37
+# 	Pfade die durch einen Tunnel gehen sind mit 0x1a geflaggt, sind aber bereits als routingfähig markiert. Das führt zu 
+# 	routingfehlern. Daher wird 0x1a aufgegeben und der Overlay 0x10504 genutzt
+# 
+# Routing of Cycle Ways
+# 	Having had serious problems with routing of bicycle ways. Always tries to escape on tracks. Added same routing 
+# 	paramaters as tracks to cycleways.
+# ............................................................
+# 2022 11 16
+#	Pedestrian Zone: Moved to 0x0A (away from 0x1A which is a Tunnel but was looking so great...)
+# ............................................................
+# Checked & Updated 3.12.2024
+# ............................................................
+
+
+# .....................
+# Path
+# .....................
+# !!! Hier ist eine wichtige Änderung die bei einer Straßenkarte nicht sein darf: 
+# !!  add access = yes; Muss bei Straße no sein. !!
+#	2019 12 13 - 	Nehme nur den access=no oder yes raus und belasse das routing somit exact so wie es in OSM 
+#					eingegeben war. Das Ziel muss sein, daß du ggf nur mit Rad-Routing durchkommst!
+# highway=path 	{add access = yes; add bicycle = yes; add foot = yes}		[0x08 road_class=0 road_speed=1 resolution 24 continue] # Enduro
+# 
+highway=path 																{add bicycle = yes; add foot = yes}							
+																			[0x08 road_class=0 road_speed=1 resolution 24 continue] # Enduro
+highway=path  & (network=lwn|network=rwn) 									{name '${PR}'} [0x10e02 resolution 22 continue]
+highway=path  & (network=nwn|network=iwn) 									{name '${GR}'} [0x10e01 resolution 22 continue]
+highway=path & route_refbike=yes 											{name '${bikeref|highway-symbol:oval}'} 
+																			[0x10e03 resolution 24-22 continue] 
+highway=path & tunnel=yes  													[0x10504 resolution 24 continue]
+highway=path & bridge=yes  													[0x10104 resolution 24]
+
+# .....................
+# footways
+# .....................
+highway=footway 															{add access = no; add foot = yes; add bicycle = yes;}		
+																			[0x09 road_class=0 road_speed=0 resolution 24 continue]
+highway=footway  & (network=lwn|network=rwn) 								{name '${PR}'} [0x10e02 resolution 22 continue]
+highway=footway  & (network=nwn|network=iwn) 								{name '${GR}'} [0x10e01 resolution 22 continue]
+highway=footway & route_refbike=yes 										{name '${bikeref|highway-symbol:oval}'} 
+																			[0x10e03 resolution 22 continue] 
+highway=footway & tunnel=yes 												[0x10504 resolution 24 continue]
+highway=footway & bridge=yes 												[0x10104 resolution 24]
+
+# .....................
+# pedestrian streets
+# avoids creating pedestrian lines around pedestrian squares and things like piers
+# .....................
+highway=pedestrian & area!=yes & man_made!=yes 								{add access = no; add foot = yes; add bicycle = yes;} 
+																			[0x0a road_class=0 road_speed=0 resolution 24 continue]																	
+highway=pedestrian  & (network=lwn|network=rwn) 							{name '${PR}'} [0x10e02 resolution 22 continue]
+highway=pedestrian  & (network=nwn|network=iwn) 							{name '${GR}'} [0x10e01 resolution 22 continue]
+highway=pedestrian & route_refbike=yes 										{name '${bikeref|highway-symbol:oval}'} 
+																			[0x10e03 resolution 22 continue] 
+highway=pedestrian & area!=yes & man_made!=yes & tunnel=yes					[0x10504 resolution 24 continue]
+highway=pedestrian & area!=yes & man_made!=yes & bridge=yes					[0x10104 resolution 24]
+
+# .....................
+# steps
+# .....................
+highway=steps 																{add access = no; add foot = yes; add bicycle = yes;} 	
+																			[0x0b road_class=0 road_speed=0 resolution 24 continue]
+highway=steps  & (network=lwn|network=rwn) 									{name '${PR}'} [0x10e02 resolution 22 continue]
+highway=steps  & (network=nwn|network=iwn) 									{name '${GR}'} [0x10e01 resolution 22 continue]
+highway=steps & route_refbike=yes 											{name '${bikeref|highway-symbol:oval}'} 
+																			[0x10e03 resolution 22 continue]
+highway=steps & tunnel=yes						 							[0x10504 resolution 24 continue]
+highway=steps & bridge=yes 													[0x10104 resolution 24]
+
+# .....................
+# cycleway / byway
+# .....................
+(highway=cycleway | highway=byway ) 										{set access = yes; set bicycle = yes; set foot = yes}	
+																			[0x0e road_class=0 road_speed=3 resolution 24-23 continue]
+(highway=cycleway | highway=byway)  & (network=lwn|network=rwn) 			{name '${PR}'} [0x10e02 resolution 22 continue]
+(highway=cycleway | highway=byway)  & (network=nwn|network=iwn) 			{name '${GR}'} [0x10e01 resolution 22 continue]
+(highway=cycleway | highway=byway) 	& route_refbike=yes						{name '${bikeref|highway-symbol:oval}'} 
+																			[0x10e03 resolution 22 continue]
+(highway=cycleway | highway=byway) & tunnel=yes 							[0x10504 resolution 24-23 continue]
+(highway=cycleway | highway=byway) & bridge=yes 							[0x10104 resolution 24-23]																			

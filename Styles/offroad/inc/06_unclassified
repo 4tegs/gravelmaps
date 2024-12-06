@@ -1,0 +1,57 @@
+﻿# ............................................................
+# unclassified , minor, Road,
+# Geprüft am 22.07.2020
+# Checked & Updated 3.12.2024
+# ............................................................
+#
+# .....................
+#  Paved first 
+# .....................
+# Paved kein Tunnel
+(highway=unclassified | highway=minor | highway=road) & mkgmap:unpaved!=1	& tunnel!=yes		[0x06 road_class=2 road_speed=3 resolution 24 continue] # 8 bit
+(highway=unclassified | highway=minor | highway=road) & mkgmap:unpaved!=1	& tunnel!=yes		[0x1000B resolution 23-23 continue] # 6 Bit
+(highway=unclassified | highway=minor | highway=road) & mkgmap:unpaved!=1	& tunnel!=yes		[0x1000C resolution 22-22 continue] # 4 Bit
+# Paved Tunnel
+(highway=unclassified | highway=minor | highway=road) & mkgmap:unpaved!=1	& tunnel=yes		[0x14 road_class=2 road_speed=3 resolution 24 continue] # 8 bit
+(highway=unclassified | highway=minor | highway=road) & mkgmap:unpaved!=1	& tunnel=yes		[0x10503 resolution 23-23 continue] # 6 Bit
+(highway=unclassified | highway=minor | highway=road) & mkgmap:unpaved!=1	& tunnel=yes		[0x1000C resolution 22-22 continue] # 4 Bit
+
+# .....................
+#  Unpaved
+# .....................
+# Unpaved kein Tunnel
+(highway=unclassified | highway=minor | highway=road) & mkgmap:unpaved=1	& tunnel!=yes		[0x12 road_class=0 road_speed=3 resolution 24 continue] # 8 bit
+(highway=unclassified | highway=minor | highway=road) & mkgmap:unpaved=1	& tunnel!=yes		[0x1010D resolution 23-23 continue]  # 6 Bit green colored
+(highway=unclassified | highway=minor | highway=road) & mkgmap:unpaved=1	& tunnel!=yes		[0x1010E resolution 22-22 continue]  # 4 Bit
+# Unpaved Tunnel
+(highway=unclassified | highway=minor | highway=road) & mkgmap:unpaved=1	& tunnel=yes		[0x14 road_class=0 road_speed=2 resolution 24 continue] # 8 bit
+(highway=unclassified | highway=minor | highway=road) & mkgmap:unpaved=1	& tunnel=yes		[0x10503 resolution 23-23 continue] # 6 Bit
+(highway=unclassified | highway=minor | highway=road) & mkgmap:unpaved=1	& tunnel=yes		[0x1010E resolution 22-22 continue]  # 4 Bit
+
+# .....................
+#  Bridges
+# .....................
+(highway=unclassified | highway=minor | highway=road) & bridge=yes 							[0x10102 resolution 24 continue] 	# 12 bit (je 1 Rand ; je 1 Abstand = 8 Innenraum)
+(highway=unclassified | highway=minor | highway=road) & bridge=yes 							[0x10103 resolution 23-23 continue] # 10 bit (je 1 Rand ; je 1 Abstand = 6 Innenraum)
+
+# .....................
+#  Fords
+# .....................
+(highway=unclassified | highway=minor | highway=road) & ford=*           			    		[0x10402 resolution 24 continue] # 14 bit (2 davon Rand pro Seite)
+(highway=unclassified | highway=minor | highway=road) & ford=*           			    		[0x10403 resolution 23-23 continue] # 14 bit (2 davon Rand pro Seite)
+
+
+# .....................
+# access=private
+# .....................
+(highway=unclassified | highway=minor | highway=road) & access=private						[0x1001E resolution 24-23 continue]
+
+# ....................................
+# Regional & International hiking network
+# ....................................
+(highway=unclassified | highway=minor | highway=road) & (network=lwn|network=rwn) {name '${PR}'} [0x10e02 resolution 22 continue]
+(highway=unclassified | highway=minor | highway=road) & (network=nwn|network=iwn) {name '${GR}'} [0x10e01 resolution 22 continue]
+# .....................
+#  Radwege
+# .....................
+(highway=unclassified | highway=minor | highway=road) & route_refbike=yes {name '${bikeref|highway-symbol:oval}'} [0x10e03 resolution 24-22] 
