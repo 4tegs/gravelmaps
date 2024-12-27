@@ -1,0 +1,50 @@
+﻿# ............................................................
+# !!! - tertiary ROADS - !!! Kreisstrasse
+# Geprüft am 22.07.2020
+# reworked am 22.05.2022
+# ............................................................
+#
+# .....................
+#  Paved first 
+# .....................
+# Paved kein Tunnel
+(highway=tertiary | highway=tertiary_link) & EnduroOffroad!=yes & tunnel!=yes			[0x05 road_class=3 road_speed=4 resolution 24 continue] # 8 bit
+(highway=tertiary | highway=tertiary_link) & EnduroOffroad!=yes & tunnel!=yes			[0x1000A resolution 23-23 continue]						# 6 bit
+(highway=tertiary | highway=tertiary_link) & EnduroOffroad!=yes & tunnel!=yes			[0x1000B resolution 22-20 continue] 					# 6 bit light
+# Paved Tunnel	
+(highway=tertiary | highway=tertiary_link) & EnduroOffroad!=yes & tunnel=yes				[0x14 road_class=3 road_speed=4 resolution 24 continue] # 8 bit
+(highway=tertiary | highway=tertiary_link) & EnduroOffroad!=yes & tunnel=yes				[0x10503 resolution 23-23 continue] 					# 6 bit
+(highway=tertiary | highway=tertiary_link) & EnduroOffroad!=yes & tunnel=yes				[0x1000B resolution 22-20 continue]						# 6 bit light
+	
+# .....................	
+#  UnPaved	
+# .....................	
+# UnPaved kein Tunnel	
+(highway=tertiary | highway=tertiary_link) & EnduroOffroad=yes & tunnel!=yes				[0x12 road_class=3 road_speed=3 resolution 24 continue] # 8 bit
+(highway=tertiary | highway=tertiary_link) & EnduroOffroad=yes & tunnel!=yes				[0x1010D resolution 23-23 continue]						# 6 bit yellow / green
+(highway=tertiary | highway=tertiary_link) & EnduroOffroad=yes & tunnel!=yes				[0x1010E resolution 22-20 continue]						# 4 bit yellow / green
+# UnPaved Tunnel	
+(highway=tertiary | highway=tertiary_link) & EnduroOffroad=yes & tunnel=yes				[0x14 road_class=3 road_speed=3 resolution 24 continue] # 8 bit
+(highway=tertiary | highway=tertiary_link) & EnduroOffroad=yes & tunnel=yes				[0x10503 resolution 23-23 continue]					  	# 6 bit
+(highway=tertiary | highway=tertiary_link) & EnduroOffroad=yes & tunnel=yes				[0x1010E resolution 22-20 continue]						# 4 bit yellow / green
+
+# .....................
+#  Bridges
+# .....................
+(highway=tertiary | highway=tertiary_link) & bridge=yes 								[0x10102 resolution 24 continue]						# Brücke 12 / 8 Innenraum
+(highway=tertiary | highway=tertiary_link) & bridge=yes 								[0x10103 resolution 23-23 continue]						# Brücke 10 / 6 Innenraum
+
+# .....................
+#  Fords
+# .....................
+(highway=tertiary)  & ford=*           			    									[0x10401 resolution 24-23] 								# 14 bit (2 davon Rand pro Seite)
+
+# ....................................
+# Regional & International hiking network
+# ....................................
+(highway=tertiary | highway=tertiary_link) & (network=lwn|network=rwn) {name '${PR}'} 	[0x10e02 resolution 22 continue]
+(highway=tertiary | highway=tertiary_link) & (network=nwn|network=iwn) {name '${GR}'} 	[0x10e01 resolution 22 continue]
+# .....................
+#  Radwege
+# .....................
+(highway=tertiary | highway=tertiary_link) & route_refbike=yes {name '${bikeref|highway-symbol:oval}'} [0x10e03 resolution 24-22] 

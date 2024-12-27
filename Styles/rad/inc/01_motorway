@@ -1,0 +1,32 @@
+﻿# ............................................................
+# !!! - MOTORWAYS - !!! Autobahnen
+# Geprüft am 22.07.2020
+# ............................................................
+#-- routing motorway
+highway=motorway	  & tunnel!=yes	{add oneway = yes; add bicycle = no; add foot = no } [0x01 road_class=4 road_speed=7 resolution 24 continue] # 12 bit
+highway=motorway_link & tunnel!=yes	{add oneway = yes; add bicycle = no; add foot = no } [0x01 road_class=4 road_speed=4 resolution 24 continue] # 12 bit
+
+highway=motorway	  & tunnel=yes	{add oneway = yes; add bicycle = no; add foot = no } [0x13 road_class=4 road_speed=7 resolution 24 continue] # 10 bit
+highway=motorway_link & tunnel=yes	{add oneway = yes; add bicycle = no; add foot = no } [0x13 road_class=4 road_speed=4 resolution 24 continue] # 10 bit
+
+#-- zoom standard 
+(highway=motorway | highway=motorway_link) 					[0x10003 resolution 17-16 continue]	# 6 bit - Beachte: Wenn die Area bei den Tunnel nicht mehr behandelt wird, dann muss sie es hier werden!
+(highway=motorway | highway=motorway_link) 					[0x10002 resolution 19-18 continue] # 8 bit
+(highway=motorway | highway=motorway_link) & tunnel!=yes	[0x10001 resolution 23-20 continue] # 10 bit
+
+#-- zoom tunnel
+(highway=motorway | highway=motorway_link) & tunnel=yes 	[0x10501 resolution 23-20 continue] # 10 bit
+
+#-- zoom bridges
+(highway=motorway | highway=motorway_link) & bridge=yes 	[0x10101 resolution 23-23 continue] # 16 bit (2 davon Rand pro Seite)
+(highway=motorway | highway=motorway_link) & bridge=yes 	[0x10100 resolution 24]             # 18 bit (2 davon Rand pro Seite)
+
+# ....................................
+# Regional & International hiking network
+# ....................................
+(highway=motorway | highway=motorway_link) & (network=lwn|network=rwn) {name '${PR}'} [0x10e02 resolution 22 continue]
+(highway=motorway | highway=motorway_link) & (network=nwn|network=iwn) {name '${GR}'} [0x10e01 resolution 22 continue]
+# .....................
+#  Radwege
+# .....................
+(highway=motorway | highway=motorway_link) & route_refbike=yes {name '${bikeref|highway-symbol:oval}'} [0x10e03 resolution 22] 

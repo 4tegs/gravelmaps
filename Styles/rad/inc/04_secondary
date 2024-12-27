@@ -1,0 +1,48 @@
+﻿# ............................................................
+# !!! - secondary ROADS - !!! Landstraßen
+# Geprüft am 16.11.2022
+# ............................................................
+#
+# .....................
+#  Paved first 
+# .....................
+# Paved kein Tunnel
+(highway=secondary | highway=secondary_link) & mkgmap:unpaved!=1 & tunnel!=yes			[0x04 road_class=3 road_speed=4 resolution 24 continue] # 10 bit
+(highway=secondary | highway=secondary_link) & mkgmap:unpaved!=1 & tunnel!=yes			[0x10008 resolution 23-22 continue]						# 8
+(highway=secondary | highway=secondary_link) & mkgmap:unpaved!=1 & tunnel!=yes			[0x10009 resolution 21-20 continue] 					# 6
+# Paved Tunnel
+(highway=secondary | highway=secondary_link) & mkgmap:unpaved!=1 & tunnel=yes			[0x13 road_class=3 road_speed=4 resolution 24 continue] # 10 bit
+(highway=secondary | highway=secondary_link) & mkgmap:unpaved!=1 & tunnel=yes			[0x10502 resolution 23-22 continue] 					# 8
+(highway=secondary | highway=secondary_link) & mkgmap:unpaved!=1 & tunnel=yes			[0x10003 resolution 21-20 continue]						# 6
+
+# .....................
+#  UnPaved
+# .....................
+# UnPaved kein Tunnel
+(highway=secondary | highway=secondary_link) & mkgmap:unpaved=1 & tunnel!=yes			[0x12 road_class=3 road_speed=3 resolution 24 continue] # 10 bit
+(highway=secondary | highway=secondary_link) & mkgmap:unpaved=1 & tunnel!=yes			[0x1010D resolution 23-22 continue]						# 8
+(highway=secondary | highway=secondary_link) & mkgmap:unpaved=1 & tunnel!=yes			[0x10009 resolution 21-20 continue]						# 6
+# UnPaved Tunnel
+(highway=secondary | highway=secondary_link) & mkgmap:unpaved=1 & tunnel=yes			[0x14 road_class=3 road_speed=3 resolution 24 continue] # 10 bit
+(highway=secondary | highway=secondary_link) & mkgmap:unpaved=1 & tunnel=yes			[0x10502 resolution 23-22 continue]					  	# 8
+(highway=secondary | highway=secondary_link) & mkgmap:unpaved=1 & tunnel=yes			[0x10503 resolution 21-20 continue]						# 6
+
+#___________________________________________________________________________________________________________
+
+#-- zoom bridges
+(highway=secondary | highway=secondary_link) & bridge=yes 	[0x10101 resolution 24    continue]	# 16 bit (2 davon Rand pro Seite, 1 Abstand)
+(highway=secondary | highway=secondary_link) & bridge=yes 	[0x10102 resolution 23-22 continue] # 12 bit (1 davon Rand pro Seite, 1 Abstand)
+
+#-- zoom Furt
+highway=secondary & ford=*   	 	                		[0x10401  resolution 24    continue] # 16 bit (2 davon Rand pro Seite)
+highway=secondary & ford=*   	 	                		[0x10401  resolution 23    		   ] # 14 bit (2 davon Rand pro Seite)
+
+# ....................................
+# Regional & International hiking network
+# ....................................
+(highway=secondary | highway=secondary_link) & (network=lwn|network=rwn) {name '${PR}'} [0x10e02 resolution 22 continue]
+(highway=secondary | highway=secondary_link) & (network=nwn|network=iwn) {name '${GR}'} [0x10e01 resolution 22 continue]
+# .....................
+#  Radwege
+# .....................
+(highway=secondary | highway=secondary_link) & route_refbike=yes {name '${bikeref|highway-symbol:oval}'} [0x10e03 resolution 24-22] 

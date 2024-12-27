@@ -1,0 +1,39 @@
+..........................................................................
+A routable On / Offroad riding map for Garmin Mapsource/Basecamp
+
+This map has been compiled $LONGDATE$ / $TIME$
+
+Website: https://gravelmaps.de
+E-mail: info@gravelmaps.de
+
+Disclaimer:
+This gravelmaps can be used freely for any personal use.
+Further distribution or commercial use is not allowed without attribution and permission from Gravelmaps.de
+Please note that the software is experimental and provided "as is" and you use the software at your own risk.
+
+© Gravelmaps cartography is licensed under CC-BY-NC-SA, 
+https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+..........................................................................
+Map data is provided by Openstreetmap
+© OpenStreetMap contributors http://www.openstreetmap.org/copyright
+This map data is made available under the Open Database License: 
+https://opendatacommons.org/licenses/odbl/
+Any rights in individual contents of the database are licensed under the 
+Database Contents License: https://opendatacommons.org/licenses/dbcl/1-0/
+
+..........................................................................
+The Lidar Terrain Models is published through Sonny, licensed using the Creative Commons Attribution 4.0 (CC BY 4.0).
+Credits for all the work done compiling the Lidar terrain model for Europe go to Sonny. See https://sonny.4lima.de/
+
+..........................................................................
+This map is created with 
+	* mkgmap-$MKGMAP_VERSION$ 
+	* Java-$JAVA_VERSION$ 
+	* Srtm2osm  
+	* splitter 
+	* osmconvert
+	* Installer created with NSIS (Nullsoft Scriptable Install System)
+	* gmaptool (gmt.exe) is developed by Andrzej Popowski, http://www.gmaptool.eu
+	
+TYP File is created using TYPWIZ6 by https://www.pinns.co.uk/osm/typwiz7.html

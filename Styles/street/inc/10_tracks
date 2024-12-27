@@ -1,0 +1,112 @@
+# ............................................................
+# Tracks 
+#
+# Geprüft am 22.07.2020
+# ............................................................
+#
+# 27.09.2020
+#	Tunnelerkennung übernimmt auch bei Pfaden. Musste besser spezifiert werden!
+#
+# ............................................................
+#
+(highway=unsurfaced | highway=track ) & tunnel=yes										[0x15 road_class=0 road_speed=3 resolution 24 continue]		# 6 breit
+
+# .....................
+# Geteerter Track 
+# .....................
+(highway=track & tracktype=grade1 & mkgmap:unpaved=0)			 						[0x07 road_class=0 road_speed=3 resolution 24 continue]		# 6 breit
+(highway=track & tracktype=grade1 & mkgmap:unpaved=0)									[0x1000C resolution 23-23] 			 						# 4 breit
+#(highway=track & tracktype=grade1 & mkgmap:unpaved=0)									[0x1000C resolution 22-22 continue]  						# 4 breit
+# (highway=track & tracktype=grade1 & mkgmap:unpaved=0) & (network=lwn|network=rwn) 	{name '${PR}'} [0x10e02 resolution 22 continue]
+# (highway=track & tracktype=grade1 & mkgmap:unpaved=0) & (network=nwn|network=iwn) 	{name '${GR}'} [0x10e01 resolution 22 continue]
+# (highway=track & tracktype=grade1 & mkgmap:unpaved=0 & route_refbike=yes)	 			{name '${bikeref|highway-symbol:oval}'} [0x10e03 resolution 24-22] 
+# .....................
+# Ungeteerter Track
+# .....................
+((highway=unsurfaced | highway=track) & tracktype=grade1 & mkgmap:unpaved=1) 			[0x11 road_class=0 road_speed=2 resolution 24 continue]		# 6 breit
+((highway=unsurfaced | highway=track) & tracktype=grade1 & mkgmap:unpaved=1) 			[0x10109 resolution 23-23]									# 4 breit
+#((highway=unsurfaced | highway=track) & tracktype=grade1 & mkgmap:unpaved=1) 			[0x1010A resolution 22-22 continue]							# 2 breit
+
+# ((highway=unsurfaced | highway=track) & tracktype=grade1 & mkgmap:unpaved=1 & (network=lwn|network=rwn)) {name '${PR}'} [0x10e02 resolution 22 continue]
+# ((highway=unsurfaced | highway=track) & tracktype=grade1 & mkgmap:unpaved=1 & (network=nwn|network=iwn)) {name '${GR}'} [0x10e01 resolution 22 continue]
+# ((highway=unsurfaced | highway=track) & tracktype=grade1 & mkgmap:unpaved=1 & route_refbike=yes) {name '${bikeref|highway-symbol:oval}'} [0x10e03 resolution 24-22]
+																				
+# .....................
+# Remarke die nächsten Zeilen für die Strassenkarte
+# geschotterte Wege die eigentlich gut fahrbar sein sollten. Oftmals Forstwege
+# .....................
+((highway=unsurfaced | highway=track) & tracktype=grade2 & EnduroOffroad!=yes)			[0x11 road_class=0 road_speed=2 resolution 24 continue]		# 6 breit
+((highway=unsurfaced | highway=track) & tracktype=grade2 & EnduroOffroad!=yes)			[0x10109 resolution 23-23]									# 4
+#((highway=unsurfaced | highway=track) & tracktype=grade2 & EnduroOffroad!=yes)			[0x1010A resolution 22-22 continue]							# 2
+# ((highway=unsurfaced | highway=track) & tracktype=grade2 & EnduroOffroad!=yes & (network=lwn|network=rwn)) {name '${PR}'} [0x10e02 resolution 22 continue]
+# ((highway=unsurfaced | highway=track) & tracktype=grade2 & EnduroOffroad!=yes & (network=nwn|network=iwn)) {name '${GR}'} [0x10e01 resolution 22 continue]																																						  																																				  
+# ((highway=unsurfaced | highway=track) & tracktype=grade2 & EnduroOffroad!=yes & route_refbike=yes) {name '${bikeref|highway-symbol:oval}'} [0x10e03 resolution 24-22] 
+
+# .....................
+# Echte Feldwege
+# .....................
+((highway=unsurfaced | highway=track) & (tracktype ~ 'grade[3-5]') & EnduroOffroad!=yes)	[0x0C road_class=0 road_speed=2 resolution 24 continue]
+((highway=unsurfaced | highway=track) & (tracktype ~ 'grade[3-5]') & EnduroOffroad!=yes)	[0x10016 resolution 23-23]
+
+# ((highway=unsurfaced | highway=track) & (tracktype ~ 'grade[3-5]') & EnduroOffroad!=yes & (network=lwn|network=rwn)) {name '${PR}'} [0x10e02 resolution 22 continue]
+# ((highway=unsurfaced | highway=track) & (tracktype ~ 'grade[3-5]') & EnduroOffroad!=yes & (network=nwn|network=iwn)) {name '${GR}'} [0x10e01 resolution 22 continue]
+# ((highway=unsurfaced | highway=track) & (tracktype ~ 'grade[3-5]') & EnduroOffroad!=yes & route_refbike=yes){name '${bikeref|highway-symbol:oval}'} [0x10e03 resolution 24-23 continue] 
+																						
+# .....................
+# Gras / Sand / Erde / Schlamm etc. 
+# Siehe EnduroOffroad Markierung in Lines
+# .....................
+((highway=unsurfaced | highway=track) & (tracktype ~ 'grade[2-5]') & EnduroOffroad=yes)		[0x0F road_class=0 road_speed=1 resolution 24 continue]
+((highway=unsurfaced | highway=track) & (tracktype ~ 'grade[2-5]') & EnduroOffroad=yes)		[0x10017 resolution 23-23]
+
+# ((highway=unsurfaced | highway=track) & (tracktype ~ 'grade[2-5]') & EnduroOffroad=yes & (network=lwn|network=rwn)) {name '${PR}'} [0x10e02 resolution 22 continue]
+# ((highway=unsurfaced | highway=track) & (tracktype ~ 'grade[2-5]') & EnduroOffroad=yes & (network=nwn|network=iwn)) {name '${GR}'} [0x10e01 resolution 22 continue]
+# ((highway=unsurfaced | highway=track) & (tracktype ~ 'grade[2-5]') & EnduroOffroad=yes & route_refbike=yes){name '${bikeref|highway-symbol:oval}'}[0x10e03 resolution 24-23 continue] 
+
+# .....................
+# Markiere die beiden schlechtesten Strassenzustände - sofern sie gesetzt sind!
+# .....................
+((highway=unsurfaced | highway=track) &  smoothness=very_horrible) 						{set name = '${name} - Very rough (G5)'| 'Very rough (G5)' 	; set mkgmap:road-class=0; set mkgmap:road-speed=0; delete mkgmap:fast_road;} 
+																						[0x1010B resolution 24-23 continue] 
+((highway=unsurfaced | highway=track) &  smoothness=impassable) 						{set name = '${name} - Unpassierbar (G5)'| 'Unpassierbar (G5)'; set mkgmap:road-class=0; set mkgmap:road-speed=0; delete mkgmap:fast_road;} 
+																						[0x1010B resolution 24-23] 
+
+# .....................
+# Private roads / track type
+# .....................
+(highway=unsurfaced | highway=track) & access=private 									[0x1001E resolution 24-23]
+# (highway=unsurfaced | highway=track) & access=private & (network=lwn|network=rwn) {name '${PR}'} [0x10e02 resolution 22 continue]
+# (highway=unsurfaced | highway=track) & access=private & (network=nwn|network=iwn) {name '${GR}'} [0x10e01 resolution 22 continue]
+# ((highway=unsurfaced | highway=track) & access=private & route_refbike=yes) 	  {name '${bikeref|highway-symbol:oval}'}[0x10e03 resolution 22] 
+# .....................
+# Wrap up all UNPAVED tracks not covered yet in particular all tracks that have no grade set at all. 
+# Set these as Schotterstrecke (ungeteert)
+# .....................
+(highway=track & mkgmap:unpaved=1 &  !(tracktype ~ 'grade.'))							[0x11 road_class=0 road_speed=2 resolution 24 continue]		
+(highway=track & mkgmap:unpaved=1 &  !(tracktype ~ 'grade.'))							[0x10109 resolution 23-23 continue]							
+(highway=track & mkgmap:unpaved=1 &  !(tracktype ~ 'grade.'))							[0x1010A resolution 22-22]							
+# ((highway=track & mkgmap:unpaved=1 & !(tracktype ~ 'grade.')) & (network=lwn|network=rwn)) {name '${PR}'} [0x10e02 resolution 22 continue]
+# ((highway=track & mkgmap:unpaved=1 & !(tracktype ~ 'grade.')) & (network=nwn|network=iwn)) {name '${GR}'} [0x10e01 resolution 22 continue]
+# ((highway=track & mkgmap:unpaved=1 & !(tracktype ~ 'grade.')) & route_refbike=yes) 		{name '${bikeref|highway-symbol:oval}'}[0x10e03 resolution 24-22] 
+# .....................
+# Wrap up all PAVED tracks not covered yet in particular all tracks that have no grade set at all. 
+# Set these as Verkehrsberuhigte Zone (Living , Service , Tracks) geteert
+# .....................
+# 
+(highway=track & mkgmap:unpaved=0 &  !(tracktype ~ 'grade.'))							[0x07 road_class=0 road_speed=4 resolution 24 continue]		
+(highway=track & mkgmap:unpaved=0 &  !(tracktype ~ 'grade.'))							[0x1000C resolution 23-23 continue]  						
+(highway=track & mkgmap:unpaved=0 &  !(tracktype ~ 'grade.'))							[0x1000C resolution 22-22]  						
+# ((highway=track & mkgmap:unpaved=0 & !(tracktype ~ 'grade.')) & (network=lwn|network=rwn)) {name '${PR}'} [0x10e02 resolution 22 continue]
+# ((highway=track & mkgmap:unpaved=0 & !(tracktype ~ 'grade.')) & (network=nwn|network=iwn)) {name '${GR}'} [0x10e01 resolution 22 continue]
+# ((highway=track & mkgmap:unpaved=0 & !(tracktype ~ 'grade.')) & route_refbike=yes) 		{name '${bikeref|highway-symbol:oval}'}[0x10e03 resolution 22]																																		  
+
+# .....................
+#  Bridges
+# .....................
+(highway=unsurfaced | highway=track ) & bridge=yes 										[0x10103 resolution 24 continue]  	# 10 breit  / 6 Innenraum 
+(highway=unsurfaced | highway=track ) & bridge=yes 										[0x10104 resolution 23 ]			# 8 breit  / 4 Innenraum 
+
+# .....................
+#  Fords
+# .....................
+(highway=unsurfaced | highway=track ) & ford=*           			    				[0x10403 resolution 24-23] # 6 Innenraum

@@ -1,0 +1,35 @@
+﻿# ............................................................
+# !!! - Primary ROADS - !!! Bundesstrassen
+# Geprüft am 16.11.2022
+# ............................................................
+#-- routing
+highway=primary  		& tunnel!=yes					[0x03 road_class=3 road_speed=5 resolution 24 continue] # 12 bit
+highway=primary_link  	& tunnel!=yes					[0x03 road_class=3 road_speed=4 resolution 24 continue] # 12 bit
+
+highway=primary  		& tunnel=yes					[0x13 road_class=3 road_speed=5 resolution 24 continue] # 10 bit
+highway=primary_link  	& tunnel=yes					[0x13 road_class=3 road_speed=4 resolution 24 continue] # 10 bit
+
+#-- zoom standard 
+(highway=primary | highway=primary_link)  				[0x10007 resolution 19-18 continue] # 8 bit - Beachte: Wenn die Area bei den Tunnel nicht mehr behandelt wird, dann muss sie es hier werden!
+(highway=primary | highway=primary_link) & tunnel!=yes 	[0x10006 resolution 23-20 continue] # 10 bit
+
+#-- zoom tunnel
+(highway=primary | highway=primary_link) & tunnel=yes	[0x10501 resolution 23-21 continue] # 10 bit
+
+#-- zoom bridges
+(highway=primary | highway=primary_link) & bridge=yes 	[0x10101 resolution 23-21 continue] # 16 bit (2 davon Rand pro Seite)
+(highway=primary | highway=primary_link) & bridge=yes 	[0x10100 resolution 24    continue]	# 18 bit (2 davon Rand pro Seite)
+
+#-- zoom Furt
+highway=primary & ford=*   	 	                		[0x10401  resolution 23    continue] # 16 bit (2 davon Rand pro Seite)
+highway=primary & ford=*   	 	                		[0x10400  resolution 24     	   ] # 18 bit (2 davon Rand pro Seite)
+
+# ....................................
+# Regional & International hiking network
+# ....................................
+# (highway=primary | highway=primary_link) & (network=lwn|network=rwn) {name '${PR}'} [0x10e02 resolution 22 continue]
+# (highway=primary | highway=primary_link) & (network=nwn|network=iwn) {name '${GR}'} [0x10e01 resolution 22 continue]									  
+# .....................
+#  Radwege
+# .....................
+# (highway=primary | highway=primary_link) & route_refbike=yes {name '${bikeref|highway-symbol:oval}'} [0x10e03 resolution 24-22] 

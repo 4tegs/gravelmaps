@@ -1,0 +1,31 @@
+natural=coastline [0x10303 resolution 24-12]
+
+route=ferry & (motorcar=yes | motor_vehicle=yes | access=yes)  									{set mkgmap:ferry=1} [0x10 road_class=3 road_speed=2 resolution 24-21 continue]
+route=ferry & (motorcar=yes | motor_vehicle=yes | access=yes)  & length()>2000 					{set mkgmap:ferry=1} [0x11502 resolution 20-16 continue]
+
+route=ferry & (motorcar=no | motor_vehicle=no | access=no) 										{add mkgmap:ferry=1} [0x11500 resolution 24-21 continue]
+route=ferry & (motorcar=no | motor_vehicle=no | access=no)     & length()>2000 					{add mkgmap:ferry=1} [0x11502 resolution 20-16]
+
+
+route=ferry & access!=* 								 										{add mkgmap:ferry=1} [0x11500 resolution 24-21 continue] # I need to wrap up ferry lines which don't have access set at all - see Arbatax to Olbia 
+route=ferry & access!=* 								 	   & length()>2000					{add mkgmap:ferry=1} [0x11502 resolution 20-18] # I need to wrap up ferry lines which don't have access set at all - see Arbatax to Olbia 
+
+# ------------------------------------------------
+# WATERWAYS
+# ------------------------------------------------
+waterway=river 						 							[0x10300 resolution 24-20 continue]
+waterway=canal 						 							[0x10300 resolution 24-20 continue]
+waterway=stream 					 							[0x10301 resolution 24-23 continue]
+waterway=drain 						 						 	[0x10301 resolution 24-23 continue]
+(barrier=ditch | waterway=ditch)  	 							[0x10301 resolution 24-23 ]
+
+waterway=dam 													[0x10304 resolution 24-22]
+waterway=weir 													[0x10305 resolution 24-23]
+
+waterway=* & intermittent=yes 									[0x10302 resolution 24-23 ]
+(waterway=river | waterway=canal) & intermittent=yes    		[0x10302 resolution 24-20 ]
+(waterway=stream | waterway=drain) & intermittent=yes   		[0x10302 resolution 24-23 ]
+waterway=wadi   												[0x10302 resolution 24-21 ]
+
+# ein Deich Holland?
+man_made=dyke													[0x10304 resolution 24-22 ]

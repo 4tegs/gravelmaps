@@ -1,0 +1,91 @@
+# -------------------------------------------------------------------
+# This is the reworked Names file.
+# Will be included by Points & Lines!
+#
+# 01.12.2019
+# Stand
+# 	2021 01 01	Needed to remove line where brand & operator are being checked. Leaving the second line
+# 	2021 09 13	Changed Logic to identify int. names for Greece
+#					leads to villages in Greece having names with a reference number in front.
+#	2021 01 01	Added the international names section
+#	2021 01 02	Improved int. names 
+#	2021 01 03	Improved int. names 
+#	2021 09 14	Improved int. names Greece
+#
+# -------------------------------------------------------------------
+
+# Rules for naming objects, based on the following tags:
+# name, brand, operator, ref
+
+# delete FIXME values (they should be better used in maintenance maps)
+# better use option --ignore-fixme-values
+ref ~ '(?i)fix[ _]?+me'		{ delete ref; }
+operator ~ '(?i)fix[ _]?+me'	{ delete operator; }
+brand ~ '(?i)fix[ _]?+me'		{ delete brand; }
+name ~ '(?i)fix[ _]?+me'		{ delete name; }
+
+# delete duplicate names
+operator=${brand} { delete operator; }
+operator=${name}  { delete operator; }
+brand=${name}     { delete brand; }
+
+# None of operator, brand given
+ref=* & (operator!=* & brand!=*) & (highway=bus_stop | railway=tram_stop | railway=halt | railway=station) { name '${name} ${ref}' | '${ref}' }
+# ref=* & (operator!=* & brand!=*) { name '${ref} ${name}' | '${ref}' }# 2021 01 01: Ausgeblendet weil es in Griechenland zu Ortsnamen kommt die dann zb. "2803010101 Distomo" heissen
+
+# Both operator and brand given
+operator=* & brand=* {
+ name '${brand}: ${ref} ${name} (${operator})' |
+      '${brand} ${ref} (${operator})' |
+      '${brand}: ${name} (${operator})' |
+      '${brand} (${operator})'
+}
+
+# One of operator or brand given
+operator=* & brand!=* & (highway=bus_stop | railway=tram_stop | railway=halt | railway=station) {
+ name '${name} ${ref} ${operator}' |
+      '${name} ${operator}' |
+      '${ref} ${operator}' |
+      '${operator}'
+}
+
+operator=* & brand!=* {
+ name '${operator}: ${ref} ${name}' |
+      '${operator}: ${name}' |
+      '${operator}: ${ref}' |
+      '${operator}' |
+      '${ref}'
+}
+brand=* & operator!=* {
+ name '${brand}: ${ref} ${name}' |
+      '${brand}: ${name}' |
+      '${brand}: ${ref}' |
+      '${brand}' |
+      '${ref}'
+}
+
+# ==============================================================================================================================
+# Setting International Names
+# 31.12.2020 	Set international names.
+#				1) German language borders and Romania
+# 03.01.2021	Most of the language is now set in the options - built in makemap.rex
+# 14.09.2021    2) Fixed Greece languages.
+# ==============================================================================================================================
+# 1) Set Names in Greece to German or international or english names preferred!
+# This is done in Makemap.rex with the name-tag-list: Option!!!!!
+# name=* & ( 	mkgmap:admin_level2=GRC ) {set name='${name:en}' | '${int_name}' | '${name:int}' | '${name:en}' | '${name}'; } 
+
+# 2) 
+# set preferred German names as a second name in paranthesis. That's essential in border areas 
+# (e.g. Alsace) or in countries where there are German speaking roots (e.g. Romania)
+# ..............................................................
+name=* & ( 	mkgmap:admin_level2=ROU |
+			mkgmap:admin_level2=HUN |
+			mkgmap:admin_level2=SVK | 
+			mkgmap:admin_level2=CZE | 
+			mkgmap:admin_level2=SVN | 
+			mkgmap:admin_level2=FRA
+			) &
+	(place=* | water=* | natural=water | natural=bay | natural=glacier | natural=waterfall | natural=wetland | natural=sea | landuse=basin | landuse=reservoir)
+	{set name=  '$(name) (${name:de|not-equal:name})' | 
+				'${name}';}

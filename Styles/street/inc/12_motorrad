@@ -1,0 +1,24 @@
+# ............................................................
+# Motorrad
+#
+# MotorradSperrungen & Schöne Strecken hervorheben
+# Geprüft am 28.11.2019
+# ............................................................
+# Landschaftlich schöne Strecken markieren
+# Die Landschaft muss als erstes kommen, da danach nach Motorrad Streckensperrungen gesucht wird, die sollen aber die Landschaft ggf. überlagen.
+# Daher auch das Continue!
+(highway=primary | highway=trunk | highway=motorway | highway=service | 
+	highway=living_street | highway=minor | highway=residential | 
+	highway=road | highway=unclassified | 
+	highway=tertiary | highway=secondary ) & scenic=yes 					[0x1001A resolution 24-20 continue]
+# ............................................................
+# Zeitliche Motorradsperrungen markieren
+# Beachte die Richtung. Default ist der rote Strich auf der der Landschaft gegenüberliegenden Seite. Nun gibt es aber auch Forward / Backward Markierungen, 
+# wie z.B. der Lochen von Balingen-Weilstetten in Richtung Tieringen gesperrt, andersrum darf er immer gefahren werden. Diese Forward / Backward
+# werden mit >> in Fahrtrichtung angezeigt
+highway=* & motorcycle:conditional=*          {name '${motorcycle:conditional | highway-symbol:oval}'} 			[0x1001B resolution 24-20 continue] 
+highway=* & motorcycle:backward:conditional=* {name '${motorcycle:backward:conditional|highway-symbol:oval}'} 	[0x1001C resolution 24-20 continue] 
+highway=* & motorcycle:forward:conditional=*  {name '${motorcycle:forward:conditional|highway-symbol:oval}'} 	[0x1001D resolution 24-20 continue] 
+# ............................................................
+# Nun alle anderen zeitlichen Sperrungen wie in Pliez am Friedhof 
+highway=* & motor_vehicle:conditional=*          {name '${motor_vehicle:conditional | highway-symbol:oval}'} 

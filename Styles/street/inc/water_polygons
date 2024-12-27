@@ -1,0 +1,120 @@
+# ............................................................
+# Die Wasser Polygone
+# 24.02.2020
+# 20.09.2021 - Messinischer Golf und andere Golfe lassen Insel verschwinden
+# ............................................................
+
+# .....................
+# Die Meere
+# .....................
+natural=sea 
+				{set name= '$(name) (${name:en|not-equal:name})'  | '$(name) (${name:de|not-equal:name})'  | '$(name) (${name:fr|not-equal:name})'  | '${name}' ;
+				add mkgmap:skipSizeFilter=true; set mkgmap:drawLevel=2; }  		[0x32 resolution 11]	
+
+# .....................
+# Der Saronische Golf ist als Bay gekennzeichnet und überlagert 
+#damit das Meer, leider aber auch kleinste Inselchen die nicht 
+#als Insel oder Islet gekennzeichnet sind. Damit "ersaufen" die 
+#im Meer. Abhilfe schafft nur, dass der Saronische Golf 
+#transparent dargestellt wird. 
+# .....................
+natural=bay & 	( name:de='Saronischer Golf'
+				| name:de='Messenischer Golf' 
+				| name:de='Ionisches Meer' 
+				| name:en='Gulf of Corinth' 
+				| name:de='Lakonischer Golf')
+			{set name= '$(name) (${name:en|not-equal:name})'  | '$(name) (${name:de|not-equal:name})'  | '$(name) (${name:fr|not-equal:name})'  | '${name}' ;} 
+			[0x40 resolution 11]
+			
+#
+# Ein paar Testszenorios im Falle, dass nun z.B. die Bay am Bodensee nicht funktioniert.
+# natural=bay & mkgmap:admin_level2=GRC & name:de!='Saronischer Golf' {echotags;}
+# natural=bay & mkgmap:admin_level2=GRC	 				{set name= '$(name) (${name:de|not-equal:name})'  | '${name}'}	[0x40 resolution 11]
+# natural=bay & mkgmap:admin_level2=DEU  {echotags;}
+
+# .....................
+# See / Bucht / Lagune / Straight
+# .....................
+water=lagoon  			
+			{set name= '$(name) (${name:en|not-equal:name})'  | '$(name) (${name:de|not-equal:name})'  | '$(name) (${name:fr|not-equal:name})'  | '${name}' ;}
+			[0x3c resolution 24-21 continue]	# Lagune
+water=lagoon & area_size()>50000  			
+			{set name= '$(name) (${name:en|not-equal:name})'  | '$(name) (${name:de|not-equal:name})'  | '$(name) (${name:fr|not-equal:name})'  | '${name}' ;}
+			[0x5c resolution 20-16]		# Lagune
+			
+water=cove	
+  			{set name= '$(name) (${name:en|not-equal:name})'  | '$(name) (${name:de|not-equal:name})'  | '$(name) (${name:fr|not-equal:name})'  | '${name}' ;}
+			[0x3c resolution 24-21 continue]		# kleine Bucht
+water=cove	 & area_size()>50000  
+  			{set name= '$(name) (${name:en|not-equal:name})'  | '$(name) (${name:de|not-equal:name})'  | '$(name) (${name:fr|not-equal:name})'  | '${name}' ;}
+			[0x5c resolution 20-18]		# kleine Bucht
+			
+natural=bay 
+			{set name= '$(name) (${name:en|not-equal:name})'  | '$(name) (${name:de|not-equal:name})'  | '$(name) (${name:fr|not-equal:name})'  | '${name}' ;}
+			[0x3c resolution 24-21 continue]		# Bucht, Wasser ist ruhiger, kann es auch bei kleinen Seen oder TEichen geben
+natural=bay  & area_size()>50000  
+			{set name= '$(name) (${name:en|not-equal:name})'  | '$(name) (${name:de|not-equal:name})'  | '$(name) (${name:fr|not-equal:name})'  | '${name}' ;}
+			[0x5c resolution 20-16]		# Bucht, Wasser ist ruhiger, kann es auch bei kleinen Seen oder TEichen geben
+
+# .....................
+# Große Seen
+# .....................
+# natural=water & landuse=reservoir {set name= '$(name) (${name:de|not-equal:name})'  | '${name}' ;set water=lake} 							 		# Lake unbestimmt - Kombi um Reschensee darzustellen
+natural=water | water=lake	
+			{set name= '$(name) (${name:en|not-equal:name})'  | '$(name) (${name:de|not-equal:name})'  | '$(name) (${name:fr|not-equal:name})'  | '${name}' ;}
+			[0x3d resolution 24-21 continue]		# See unbestimmter Größe
+(natural=water | water=lake) & area_size()>50000  
+			{set name= '$(name) (${name:en|not-equal:name})'  | '$(name) (${name:de|not-equal:name})'  | '$(name) (${name:fr|not-equal:name})'  | '${name}' ;}
+			[0x5c resolution 20-16]		# See unbestimmter Größe
+
+# .....................
+# Künstliche Seen
+# .....................
+landuse=basin | water=basin					
+			[0x3d resolution 22]		# Lake artificial / Rückhaltebecken
+water=reservoir | landuse=reservoir
+			{set name= '$(name) (${name:en|not-equal:name})'  | '$(name) (${name:de|not-equal:name})'  | '$(name) (${name:fr|not-equal:name})'  | '${name}' ;}									
+			[0x3d resolution 24-21 continue]		# Reservoir
+(water=reservoir | landuse=reservoir)  & area_size()>50000  
+			{set name= '$(name) (${name:en|not-equal:name})'  | '$(name) (${name:de|not-equal:name})'  | '$(name) (${name:fr|not-equal:name})'  | '${name}' ;}									
+			[0x5c resolution 20-16]		# Reservoir
+
+# .....................
+# Kleine Gewässer
+# .....................
+water=moat 	 				[0x3f resolution 22]		# Burggraben
+water=wastewater 			[0x3f resolution 22]		# Kläranlage
+water=pond | landuse=pond 	[0x3f resolution 22]		# Teich
+water=oxbow 				[0x3f resolution 22]		# Altwassersee
+water=lock	 				[0x3f resolution 22]		# Schleusenkammer
+
+# .....................
+# Spezielle
+# .....................
+(natural=water & intermittent=yes) | water=intermittend
+			{set name= '$(name) (${name:en|not-equal:name})'  | '$(name) (${name:de|not-equal:name})'  | '$(name) (${name:fr|not-equal:name})'  | '${name}' ;}						
+			[0x4C resolution 24-21 continue]		# Lake unbestimmt und intermittend
+((natural=water & intermittent=yes) | water=intermittend)  & area_size()>50000  
+			{set name= '$(name) (${name:en|not-equal:name})'  | '$(name) (${name:de|not-equal:name})'  | '$(name) (${name:fr|not-equal:name})'  | '${name}' ;}						
+			[0x5D resolution 20]		# Lake unbestimmt und intermittend
+
+natural=glacier	
+			{set name= '$(name) (${name:en|not-equal:name})'  | '$(name) (${name:de|not-equal:name})'  | '$(name) (${name:fr|not-equal:name})'  | '${name}' ;}						
+			[0x4d resolution 18]
+natural=marsh 	[0x51 resolution 21]
+natural=mud 	[0x51 resolution 21]
+natural=wetland [0x51 resolution 21]
+natural=waterfall | waterway=waterfall  
+			{set name= '$(name) (${name:en|not-equal:name})'  | '$(name) (${name:de|not-equal:name})'  | '$(name) (${name:fr|not-equal:name})'  | '${name}' ;}				
+			[0x47 resolution 21]
+# Meerwassersaline, angelegter oder natürlicher Salzgarten, der das Salz durch Verdunstung von Meerwasser freigibt. [closedway]
+# Wird hier zunächst wie "0x3f = Wasser" gezeichnet; ggf. ist eine eigene Darstellung mit geringem Drawlevel sinnvoll.
+landuse = salt_pond [0x3f resolution 21]
+
+# .....................
+# Fliessende Gewässer
+# .....................
+waterway=riverbank 	| waterway=river	[0x46 resolution 24-21 continue]
+waterway=riverbank 	| waterway=river	[0x5c resolution 20-16]
+waterway=canal							[0x46 resolution 24-21 continue]
+waterway=canal							[0x5c resolution 20-18]

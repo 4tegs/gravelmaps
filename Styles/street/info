@@ -1,0 +1,27 @@
+﻿# ----------------------------------------------------------------
+# 2020 Style von Hans Straßgütl für die Strassen Karten
+# 
+# ----------------------------------------------------------------
+
+# Version of the style itself
+#
+version=1.0
+
+summary {
+Das ist der 2020 Style von Hans Straßgütl für die Strassen Karten
+}
+
+description {
+Das ist der 2020 Style von Hans Straßgütl für die Strassen Karten
+ Der Style ist eine erhebliche Überarbeitung des ursprünglichen 
+ Styles von 2019. Wesentliche Änderungen finden sich in 
+ * Routing / Lines: Sind nun so aufgesetzt, daß eine feinere 
+	Unterscheidung zu treffen ist zwischen 
+		- Straße
+		- Schotter (mit Auto)
+		- Schotter leicht mit Enduro
+		- Gras / Erde anstrengend mit Enduro
+		- Nicht passierbar
+ * Polygone 
+	Sind nun klar strukturiert und arbeiten nicht mehr auf "Zufall"
+}
