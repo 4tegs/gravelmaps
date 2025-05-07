@@ -1,13 +1,13 @@
 # gravelmaps.de
 Documentation of the Garmin Maps for Offroad Adventures published on https://gravelmaps.de . <br/>
 The maps have a focus for motorcycle / enduro / off-road purpose.<br/>
-<p>This maps have developed over several years, based on my personal experience in offroad riding and are obviously well used by the offroad community.</p>
+<p>This maps have developed over several years, based on my personal experience in offroad riding. The maps have been downloaded many thousands of times. They are obviously well used by the off-road community.</p>
 
 
 ## Prerequisites
 
 Before you start, you should be aware of some prerequistes. So what do YOU need to know?
-* You must understand Openstreetmap and its tagging features as this your the main knowledge when defining the style.
+* You must understand Openstreetmap and its tagging features as this îs your the main knowledge when defining the style.
 * Its a good idea to have some basic programming skills in Python.
 
 ## Overview
@@ -101,8 +101,39 @@ These styles are available:
 | rad | This is my personal adaption of the standard style for use with my road-bicycle. It has a reduced layout, missing "not so good" tracks. |
 
 ## Special
-replace_typ wozu
 
+
+ReplaceTyp.cmd is made for changing the layout of gravelmaps. To run it, you need
+<ol> 
+<li>the TYP Files </li>
+<li>gmt.exe </li>
+<li>be_invisible.cmd </li>
+<li>be_visible.cmd </li>
+</ol>
 
 ## Licence
-die Lizenz zu diesem Repo
+..........................................................................  
+© Gravelmaps cartography is licensed under CC-BY-NC-SA,   
+https://creativecommons.org/licenses/by-nc-sa/4.0/  
+
+Website: https://gravelmaps.de  
+E-mail: info@gravelmaps.de  
+
+Disclaimer:  
+This gravelmaps can be used freely for any personal use.  
+Further distribution or commercial use is not allowed without attribution and permission from Gravelmaps.de  
+Please note that the software is experimental and provided "as is" and you use the software at your own risk.
+
+..........................................................................
+Map data is provided by Openstreetmap 
+© OpenStreetMap contributors http://www.openstreetmap.org/copyright  
+This map data is made available under the Open Database License:   
+https://opendatacommons.org/licenses/odbl/  
+Any rights in individual contents of the database are licensed under the   
+Database Contents License: https://opendatacommons.org/licenses/dbcl/1-0/  
+
+..........................................................................  
+The Lidar Terrain Models is published through Sonny, licensed using the Creative Commons Attribution 4.0 (CC BY 4.0).  
+Credits for all the work done compiling the Lidar terrain model for Europe go to Sonny. See https://sonny.4lima.de/  
+
+For all other software used, please refer to the relevant licence descriptions.
