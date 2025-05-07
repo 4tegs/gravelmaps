@@ -23,13 +23,13 @@ The numbers relate to the numbers in the diagram. All links refer to windows pro
 | --- | --- | --- |
 | 1 | wget | https://sourceforge.net/projects/gnuwin32/files/wget/ |
 | 2 | OSMconvert | https://wiki.openstreetmap.org/wiki/Osmconvert |
-| 3 | OSMconvert | see above  |
+| 3 | OSMconvert | see 2  |
 | 4 | Splitter | https://www.mkgmap.org.uk/download/splitter.html |
 | 5 | MkGMAP | https://www.mkgmap.org.uk/download/mkgmap.html |
 | 6 | gmt.exe | https://www.gmaptool.eu/ |
 | 7 | NSISbi (must be 64bit Version due to the size of the output files) | https://sourceforge.net/projects/nsisbi/ |
 | 8 | 7Z | https://www.7-zip.org/ |
-| 9 | gmt.exe | see above  |
+| 9 | gmt.exe | see 6  |
 |  |  |  |
 
 
@@ -112,28 +112,17 @@ ReplaceTyp.cmd is made for changing the layout of gravelmaps. To run it, you nee
 </ol>
 
 ## Licence
-..........................................................................  
 © Gravelmaps cartography is licensed under CC-BY-NC-SA,   
 https://creativecommons.org/licenses/by-nc-sa/4.0/  
 
-Website: https://gravelmaps.de  
-E-mail: info@gravelmaps.de  
+Website: https://gravelmaps.de or https://motorradtouren.de<br/>
+E-mail: info@motorradtouren.de<br/>
+Owner: Hans Straßgütl 
 
 Disclaimer:  
-This gravelmaps can be used freely for any personal use.  
-Further distribution or commercial use is not allowed without attribution and permission from Gravelmaps.de  
+This gravelmaps code can be used freely for any personal use.  
+Further distribution or commercial use is not allowed without attribution and permission from Hans Straßgütl.  
 Please note that the software is experimental and provided "as is" and you use the software at your own risk.
 
-..........................................................................
-Map data is provided by Openstreetmap 
-© OpenStreetMap contributors http://www.openstreetmap.org/copyright  
-This map data is made available under the Open Database License:   
-https://opendatacommons.org/licenses/odbl/  
-Any rights in individual contents of the database are licensed under the   
-Database Contents License: https://opendatacommons.org/licenses/dbcl/1-0/  
-
 ..........................................................................  
-The Lidar Terrain Models is published through Sonny, licensed using the Creative Commons Attribution 4.0 (CC BY 4.0).  
-Credits for all the work done compiling the Lidar terrain model for Europe go to Sonny. See https://sonny.4lima.de/  
-
 For all other software used, please refer to the relevant licence descriptions.
