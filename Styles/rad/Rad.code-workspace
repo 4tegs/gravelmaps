@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../Offroad"
+		},
+		{
+			"path": "../Street"
+		}
+	],
+	"settings": {}
+}

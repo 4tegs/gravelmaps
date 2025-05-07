@@ -1,0 +1,32 @@
+﻿# ----------------------------------------------------------------
+# 2023 Style von Hans Straßgütl für die Fahrrad Karten
+# 
+# ----------------------------------------------------------------
+
+# Version of the style itself
+#
+version=1.0
+
+summary {
+Das ist der 2023 Style von Hans Straßgütl für die Fahrrad Karten
+}
+description {
+Das ist der 2023 Style von Hans Straßgütl für die Fahrrad Karten
+ Der Style ist eine erhebliche Überarbeitung des ursprünglichen 
+ Styles von 2019 / 2022. Wesentliche Änderungen finden sich in 
+ * Routing / Lines: Sind nun so aufgesetzt, daß eine feinere 
+	Unterscheidung zu treffen ist zwischen 
+		- Straße
+		- Schotter (mit Auto)
+		- Schotter leicht mit Fahrrad
+		- Gras / Erde anstrengend mit Fahrrad
+		- Pfade und Treppen - gar nicht mit dem Rad
+		- Nicht passierbar
+ * Polygone 
+	Sind nun klar strukturiert und arbeiten nicht mehr auf "Zufall"
+}
+
+# 29.11.2023 Darstellung deutlich verändert um ein kleineres und schnelleres Image zu erhalten:
+#				* Die trunc und primary faden früher aus
+#				* keine Häuser darstellen
+#				* Die kleinen Orte faden früher aus
