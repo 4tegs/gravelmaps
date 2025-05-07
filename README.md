@@ -102,14 +102,14 @@ These styles are available:
 
 ## Special
 
-
-ReplaceTyp.cmd is made for changing the layout of gravelmaps. To run it, you need
+ReplaceTyp.cmd is made for changing the layout of gravelmaps images. To run it, you need
 <ol> 
 <li>the TYP Files </li>
 <li>gmt.exe </li>
 <li>be_invisible.cmd </li>
 <li>be_visible.cmd </li>
 </ol>
+Simply drag & drop the img file onto replace_typ.cmd.
 
 ## Licence
 © Gravelmaps cartography is licensed under CC-BY-NC-SA,   
