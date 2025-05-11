@@ -1,13 +1,22 @@
 # gravelmaps.de
 Documentation of the Garmin Maps for Offroad Adventures published on https://gravelmaps.de . <br/>
 The maps have a focus for motorcycle / enduro / off-road purpose.<br/>
-<p>This maps have developed over several years, based on my personal experience in offroad riding. The maps have been downloaded many thousands of times. They are obviously well used by the off-road community.</p>
 
+## A personal note
+<p>
+I designed the map style a few years ago. The maps have developed over several years, based on my personal experience in offroad riding. The maps have been downloaded many thousands of times. They are obviously well used by the off-road community.</p>
+For personal reasons, I retired from motorcycling on unknown and unpaved roads in 2024. This means that I will gradually withdraw from the map project.</p>  
+
+<p>My commitment:<br/>
+I will continue to maintain the maps in 2025. In 2026, as today, I will continue to publish the maps quarterly on https://gravelmaps.de.
+End of 2027 however, I will shut down the domain.  </p>
+
+If there is anyone who would like to take over the project, please get in touch.  
 
 ## Prerequisites
 
 Before you start, you should be aware of some prerequistes. So what do YOU need to know?
-* You must understand Openstreetmap and its tagging features as this îs your the main knowledge when defining the style.
+* You must understand Openstreetmap and its tagging features as this is your the main knowledge when defining the style.
 * Its a good idea to have some basic programming skills in Python.
 
 ## Overview
