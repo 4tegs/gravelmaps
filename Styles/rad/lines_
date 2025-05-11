@@ -211,7 +211,7 @@ highway=* {set EnduroOffroad=no}
 # Flag paved  roads
 # ------------------------------------------------------------------
 highway=* & 
-	(surface=asphalt | surface=paved | surface=sett | 
+	(surface=asphalt | surface=paved | surface=sett | surface=chipseal | 
     surface=concrete | surface=concrete:lanes | surface=concrete:plates | 
     surface=paving_stones  | surface=cobblestone  | 
    	surface=cobblestone:flattened  | surface=metal  | surface=wood | surface=unhewn_cobblestone)

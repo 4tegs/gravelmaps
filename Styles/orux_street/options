@@ -1,0 +1,12 @@
+﻿
+#
+# Style options.
+#
+
+# The levels specification for this style
+# 
+levels = 0:24, 1:23, 2:22, 3:21, 4:20, 5:19, 6:18, 7:17
+overview-levels = 8:16, 9:15 10:14, 11:13, 12:12
+
+#extra-used-tags= 
+

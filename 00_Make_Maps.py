@@ -62,7 +62,7 @@ def error_message(error, msg1):
 # | |_| |  __/ (_) |  _| (_| | |_) | |  | |   < 
 #  \____|\___|\___/|_|  \__,_|_.__/|_|  |_|_|\_\
 # ------------------------------------------------------------------------------------------
-def download_from_geofabrik(WGET_exe, pbf_folder, o5m_path, country_name):
+def download_from_geofabrik(WGET_exe, pbf_folder, o5m_path, country_name, merged_path, geo_name):
     '''
     Lade eine Karte von GeoFabrik. 
     Suche ggf. in den Subdirectories von Geofabrik.
@@ -74,6 +74,7 @@ def download_from_geofabrik(WGET_exe, pbf_folder, o5m_path, country_name):
     # ....................................................
     GeoFabrik_filename = country_name+'.osm.pbf'
     file_path = pbf_folder+"\\"+GeoFabrik_filename
+    o5m_mit_path = o5m_path + "\\" + country_name + ".o5m"
     if os.path.isfile(file_path):           # wenn die datei schon besteht, lösche sie weg denn wget numeriert die downloaded files sonst
         # Prüfe ob die Datei bereits gestern oder heute einmal heruntergeladen wurde. Wenn ja, belasse sie        
         modification_time = os.path.getmtime(file_path)             # Get the last modification time of the file
@@ -84,8 +85,16 @@ def download_from_geofabrik(WGET_exe, pbf_folder, o5m_path, country_name):
         if (modification_datetime.date() == current_date) | (modification_datetime.date() == yesterday_date) :            # Check if the file was last modified today
             pass
         else:
-            print("country file " + file_path +" from GeoFabrik exists and will be deleted")
+            print("country file " + file_path +" from GeoFabrik exists, is more then 2 days old and will be deleted")
+            print("removing : " + pbf_folder+"\\"+GeoFabrik_filename )
             os.remove(pbf_folder+"\\"+GeoFabrik_filename)
+            if os.path.exists(o5m_mit_path):                                # !!! Remove remark after Test
+                print("removing : " + o5m_path + "\\" + country_name + ".o5m")
+                os.remove(o5m_mit_path)                                     # !!! Remove remark after Test
+            # if os.path.exists(merged_path + "\\" + geo_name + ".o5m"):                           # Sollte basierend auf fresh bereits im Main Code erledigt sein 
+            #     print("removing : " + merged_path + "\\" + geo_name + ".o5m")
+            #     os.remove(merged_path + "\\" + geo_name + ".o5m") 
+                           
 
     if os.path.isfile(file_path):           # wenn die datei schon besteht, dann ist sie von heute oder gestern und ich lade nichts
         print("Skip\tDownload \t" + country_name)
@@ -100,7 +109,7 @@ def download_from_geofabrik(WGET_exe, pbf_folder, o5m_path, country_name):
         if result.returncode != 0: result = subprocess.run(WGET_exe + " -q -t 8 http://download.geofabrik.de/asia/"+GeoFabrik_filename+ " -P " + pbf_folder)
         if result.returncode != 0: result = subprocess.run(WGET_exe + " -q -t 8 http://download.geofabrik.de/central-america/"+GeoFabrik_filename+ " -P " + pbf_folder)
         if result.returncode != 0: error_message(8, GeoFabrik_filename)
-        o5m_mit_path = o5m_path + "\\" + land + ".o5m"
+        # o5m_mit_path = o5m_path + "\\" + land + ".o5m"
         if os.path.exists(o5m_mit_path):                                # !!! Remove remark after Test
             os.remove(o5m_mit_path)                                     # !!! Remove remark after Test
 
@@ -126,9 +135,12 @@ def convert_pbf_to_o5m(OSMConvert_exe, pbf_path , o5m_path, country_name):
     '''
     # ....................................................
     GeoFabrik_filename = country_name+'.osm.pbf'
-    print("Build O5M File: \t" + pbf_path +"\\"+ GeoFabrik_filename)
-    rc = subprocess.run(OSMConvert_exe + " --drop-version "+ pbf_path +"\\"+ GeoFabrik_filename + " -o=" + o5m_path + "\\" + country_name + ".o5m", shell=True)
-    if rc.returncode != 0: error_message(9, country_name)
+    if os.path.exists(o5m_path + "\\" + country_name + ".o5m"):                                # !!! Remove remark after Test
+        print("Skip build O5M File: \t" + country_name + ".o5m")
+    else:
+        print("Build O5M File: \t" + pbf_path +"\\"+ GeoFabrik_filename + "\t\t to \t\t" + o5m_path + "\\" + country_name + ".o5m")
+        rc = subprocess.run(OSMConvert_exe + " --drop-version "+ pbf_path +"\\"+ GeoFabrik_filename + " -o=" + o5m_path + "\\" + country_name + ".o5m", shell=True)
+        if rc.returncode != 0: error_message(9, country_name)
 
 # ------------------------------------------------------------------------------------------
 #                                                        _        _             ____                     
@@ -152,6 +164,8 @@ def merge_countries_2_geo(OSMConvert_exe, o5m_path, countries, merged_path, geo_
         Geo in merged_path in o5m format
         rc = 0
     '''
+    # print("Merged Path : " + merged_path + "\\" + geo_name + ".o5m")
+    
     countries_4_merge = ""
     for land in countries.split("; "):
         countries_4_merge = countries_4_merge + o5m_path +"\\"+ land + ".o5m "
@@ -333,7 +347,7 @@ if __name__ == "__main__":
                 # ....................................................
                 # get files from geoFabrik
                 # ....................................................
-                download_from_geofabrik(WGET_exe, pbf_path, o5m_path, land)
+                download_from_geofabrik(WGET_exe, pbf_path, o5m_path, land, merged_path, geography)
                 # ....................................................
                 #  convert the PBF Files into O5M files to merge them in a next step
                 #  Du musst die PBF Files in O5M Files wandeln, da zum Merge der einzelnen 
@@ -348,36 +362,39 @@ if __name__ == "__main__":
             
             # ....................................................
             # Merge the O5M files into one Geo O5M file
-            # Das das nur einmal gemacht werden muss, geschieht das am Ende 
+            # Da das nur einmal gemacht werden muss, geschieht das am Ende 
             # des ersten Durchgangs durch die Länder
             # ....................................................
             print("Merge single Country O5M Files into merged O5M file: \t" + merged_file_with_path)      # !!! Remark after Test 
             if not os.path.exists(merged_file_with_path): merge_countries_2_geo(OSMConvert_exe, o5m_path, countries, merged_path, geography)
             
 
-        for maps in my_json["geo"][geography]["maps"]:                                          # type: ignore
-            dem_dists = "standard"                                                              # Setze Default Wert
-            make_map    = my_json["geo"][geography]["maps"][maps]["make_map"]                   # type: ignore
-            tdbfile     = my_json["geo"][geography]["maps"][maps]["tdbfile"]                    # type: ignore
-            gmapsupp    = my_json["geo"][geography]["maps"][maps]["gmapsupp"]                   # type: ignore
-            gmapi       = my_json["geo"][geography]["maps"][maps]["gmapi"]                      # type: ignore
-            nsis        = my_json["geo"][geography]["maps"][maps]["nsis"]                       # type: ignore
-            language    = my_json["geo"][geography]["maps"][maps]["language"]                   # type: ignore
-            FAM_ID      = my_json["geo"][geography]["maps"][maps]["FAM_ID"]                     # type: ignore
-            MAP_ID      = my_json["geo"][geography]["maps"][maps]["MAP_ID"]                     # type: ignore
-            style       = my_json["geo"][geography]["maps"][maps]["style"]                      # type: ignore
-            typ_file    = my_json["geo"][geography]["maps"][maps]["typ_file"]                   # type: ignore
-            region_name = my_json["geo"][geography]["maps"][maps]["region_name"]                # type: ignore
-            areaname    = my_json["geo"][geography]["maps"][maps]["areaname"]                   # type: ignore
-            map_name    = my_json["geo"][geography]["maps"][maps]["map_name"]                   # type: ignore
-            housenumbers = my_json["geo"][geography]["maps"][maps]["housenumbers"]              # type: ignore
-            dem_dists = my_json["geo"][geography]["maps"][maps]["dem_dists"]                    # type: ignore
+        for maps in my_json["geo"][geography]["maps"]:                                          
+            dem_dists = "standard"                                                               
+            make_map    = my_json["geo"][geography]["maps"][maps]["make_map"]                   
+            tdbfile     = my_json["geo"][geography]["maps"][maps]["tdbfile"]                    
+            gmapsupp    = my_json["geo"][geography]["maps"][maps]["gmapsupp"]                   
+            gmapi       = my_json["geo"][geography]["maps"][maps]["gmapi"]                      
+            nsis        = my_json["geo"][geography]["maps"][maps]["nsis"]                       
+            language    = my_json["geo"][geography]["maps"][maps]["language"]                   
+            FAM_ID      = my_json["geo"][geography]["maps"][maps]["FAM_ID"]                     
+            MAP_ID      = my_json["geo"][geography]["maps"][maps]["MAP_ID"]                     
+            style       = my_json["geo"][geography]["maps"][maps]["style"]                      
+            typ_file    = my_json["geo"][geography]["maps"][maps]["typ_file"]                   
+            region_name = my_json["geo"][geography]["maps"][maps]["region_name"]                
+            areaname    = my_json["geo"][geography]["maps"][maps]["areaname"]                   
+            map_name    = my_json["geo"][geography]["maps"][maps]["map_name"]                   
+            # housenumbers = my_json["geo"][geography]["maps"][maps]["housenumbers"]            # housenumbers. Enables house number search for OSM input files. If or not compile of housenumbers itself is done by style file.
+            dem_dists = my_json["geo"][geography]["maps"][maps]["dem_dists"]                    # 
 
             output_dir = offroadkarten_path
             if maps == "offroad"        : output_dir = offroadkarten_path
             if maps == "offroad-flat"   : output_dir = offroadkarten_path
             if maps == "street"         : output_dir = strassenkarten_path
             if maps == "orux"           : output_dir = oruxkarten_path
+            if maps == "orux-full"      : output_dir = oruxkarten_path
+            if maps == "orux-full-flat" : output_dir = oruxkarten_path
+            if maps == "orux_street"    : output_dir = oruxkarten_path
             if maps == "rad"            : output_dir = oruxkarten_path
             
             name_tag = "name-tag-list: name:int,int_name,name:en,name,name:de \n"
@@ -394,12 +411,14 @@ if __name__ == "__main__":
                 # remove the Splitfiles per Geography
                 splitfiles_with_path = splitfiles_path + "\\" + geography + "-" + maps
                 if os.path.exists(splitfiles_with_path):  
-                    pass
-                    # print("Delete Splitfiles Folder \t" + splitfiles_with_path + "\t from the disk")
-                    rc = shutil.rmtree(splitfiles_with_path)                            # !!! Remove remark after Test
+                    if fresh:
+                        print("Delete Splitfiles Folder \t" + splitfiles_with_path + "\t from the disk")
+                        rc = shutil.rmtree(splitfiles_with_path)                            
                 # make Splitfiles
-                # else:                                                                       # !!! Remark for production
-                split_my_files(Splitter_exe, max_nodes, SEA_file, Cities_file, merged_path, MAP_ID, splitfiles_with_path, geography)
+                if os.path.exists(splitfiles_with_path):  
+                    pass
+                else:                                                                       
+                    split_my_files(Splitter_exe, max_nodes, SEA_file, Cities_file, merged_path, MAP_ID, splitfiles_with_path, geography)
 
                 print('............................................................')
                 print('Build Map :\t\t\t' + geography + "-" + maps)
@@ -439,7 +458,9 @@ if __name__ == "__main__":
                     file.write("road-name-config: " + road_name_config +" \n")
                     file.write("bounds: " + BOUNDS_file +" \n")
                     file.write("location-autofill:is_in,nearest \n")
-                    if housenumbers: file.write("housenumbers \n")
+                    # if housenumbers: file.write("housenumbers \n")
+                    # housenumbers. Enables house number search for OSM input files. If or not compile of housenumbers itself is done by style file.
+                    file.write("housenumbers \n")
                     file.write("remove-ovm-work-files \n")
                     file.write("check-styles \n")
                     file.write("copyright-file: " + copyright_file +" \n")
@@ -546,12 +567,12 @@ if __name__ == "__main__":
                 if os.path.exists(output_dir+"\\"+map_name+".img"):  os.remove(output_dir+"\\"+map_name+".img")
                 if os.path.exists(output_dir+"\\"+map_name+".tdb"):  os.remove(output_dir+"\\"+map_name+".tdb")
                 if os.path.exists(output_dir+"\\"+map_name+".mdx"):  os.remove(output_dir+"\\"+map_name+".mdx")
-                if os.path.exists(output_dir+"\\"+map_name+".nsi"):  os.remove(output_dir+"\\"+map_name+".nsi")
+                # if os.path.exists(output_dir+"\\"+map_name+".nsi"):  os.remove(output_dir+"\\"+map_name+".nsi")
                 if os.path.exists(output_dir+"\\"+map_name+"_license.txt"):  os.remove(output_dir+"\\"+map_name+"_license.txt")
                 if os.path.exists(output_dir+"\\"+map_name+"_mdr.img"):  os.remove(output_dir+"\\"+map_name+"_mdr.img")
                 if os.path.exists(output_dir+"\\gmapsupp.img"):  
                     result = subprocess.run("xcopy /Q /E /C /I /Y  "+ output_dir+ "\\gmapsupp.img "+output_dir+"\\gmapsupp_backup.img", shell=True, check=False,  stderr=subprocess.PIPE, text=True)                    
-                    if maps != "orux": 
+                    if maps[:4].lower() != "orux":
                         # G:\Programme\GMAPTool\gmt.exe -w -x G:\10_Offroad_Karte\grvl_p.typ G:\10_Offroad_Karte\gmapsupp.img   
                         rc = subprocess.run(gmt_exe + " -w -x " + output_dir +"\\grvl_p.typ " + output_dir+"\\gmapsupp.img" ,shell=True, check=False )
                         print("gmapsupp.img wurde mit grvl_p.typ Darstellung versehen ")
@@ -560,6 +581,7 @@ if __name__ == "__main__":
                         print("gmapsupp.img nicht mit gmt verändert da eine Orux Karte")
 
                     if os.path.isfile(output_dir+"\\"+map_name+".img"): os.remove(output_dir+"\\"+map_name+".img")
+                    print("Erstelle : " + output_dir+"\\"+map_name+".img")
                     os.rename(output_dir+"\\gmapsupp.img" , output_dir+"\\"+map_name+".img")
                 else:
                     print(" gmapsupp.img ist nicht compiled. ")
@@ -568,7 +590,7 @@ if __name__ == "__main__":
                 # Cleanup
                 # ....................................................
                 # remove the Splitfiles
-                if os.path.exists(splitfiles_with_path): rc = shutil.rmtree(splitfiles_with_path)         #  !!! remove remark for production
+                # if os.path.exists(splitfiles_with_path): rc = shutil.rmtree(splitfiles_with_path)         #  !!! remove remark for production
 
                 # remove unneccesary files
                 files = os.listdir(output_dir)

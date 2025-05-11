@@ -61,6 +61,7 @@ The numbers relate to the numbers in the diagram.
 | 5 | Compile the map | sea-latest | see above |
 |  |  | bounds-latest | https://www.thkukuk.de/osm/data/bounds-latest.zip |
 |  |  | The style. The master logic of **what** the map will display and **when**. | this github repository | 
+|  |  | Your TYP file in *.txt format | this github repository |
 |  |  | Your Copyright definition text file | this github repository |
 |  |  | Your Licence file | this github repository |
 |  |  | Your Options File.<br/>Tells the MKGMap compiler what to do. | You prepare.<br/>or<br/>00_Make_Maps.py will create one for you. |
@@ -77,7 +78,7 @@ Whatever you choose to display via STYLE must have an equivalent in the TYP file
 
 ### TYP Files
 
-You find 5 different TYP files in the following design:
+You find 6 different TYP files in the following design:
 | TYP file | description |
 | --- | --- |
 | grvl_p.typ | This is the standard Garmin image to be used with your Garmin device = gmapsupp.img<br/> This version uses wider roads so that they can be seen more quickly on the Garmin display. |
@@ -85,6 +86,7 @@ You find 5 different TYP files in the following design:
 | grvl_pn.typ | Same layout as grvl_p.typ, but uses smaller lines for roads. This is the default for the installer to use with Basecamp. This layout gives good visibility on your screen. |
 | grvl_pnb.typ | Narrow lines for computer display with highlighted borders. |
 | orux.typ | Special map layout for use with Android devices running OruxMaps. |
+| orux-street.typ | Special map layout for use with Android devices running the street style for OruxMaps. |
 |  |  |
 
 ### STYLE
@@ -98,7 +100,10 @@ These styles are available:
 | offroad | This is the standard style for the gravelmaps.de |
 | orux | This style is a child from the standard offroad style, made for use with Android devices running Oruxmaps. <br/> The layout has been changed significantly: The way of how areas appear / disappear, small tracks like single trails are missing.  |
 | street | Based on the standard style, all offroad tracks have been discarded. Due to a lack of interest I removed them from the website 01.2022 |
+| orux-street | This style is a mix from the orux and the street layout, made for use with Android devices running street style Oruxmaps.   |
 | rad | This is my personal adaption of the standard style for use with my road-bicycle. It has a reduced layout, missing "not so good" tracks. |
+
+To compile the maps, it is necessary to have the style in two formats: *.typ and *.txt. Make sure to have the *.txt in UTF-8-BOM Format!
 
 ## Special
 

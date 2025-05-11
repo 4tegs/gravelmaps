@@ -12,9 +12,9 @@
 #				Added higher visibility to fuel
 #
 
-addr:housenumber=* {set mkgmap:execute_finalize_rules=true; set name='${addr:housenumber}' } [0x1e04 resolution 24 ] 
+# addr:housenumber=* {set mkgmap:execute_finalize_rules=true; set name='${addr:housenumber}' } [0x1e04 resolution 24 ] 
 mkgmap:line2poi=true & mkgmap:line2poitype=mid &
-# (incline=up |incline=down | incline=yes | incline=steep) [0x11710 resolution 24] # 08.05.2025 gelöscht für Straße
+# (incline=up |incline=down | incline=yes | incline=steep) [0x11710 resolution 24] # 08.05.2025
 
 barrier=* & bicycle=*    { set mkgmap:bicycle='${bicycle|subst:private=>no}' }
 barrier=* & foot=*       { set mkgmap:foot='${foot|subst:private=>no}' }
@@ -118,7 +118,7 @@ place=suburb 	& cityxx!=yes  				{set cityxx=yes}	[0x0D00 resolution 22 continue
 place=hamlet 	& cityxx!=yes  				{set cityxx=yes}	[0x0D00 resolution 22 continue with_actions]
 place=quarter 	& cityxx!=yes  				{set cityxx=yes}	[0x0D00 resolution 22 continue with_actions]
 place=neigbourhoud 	& cityxx!=yes  			{set cityxx=yes}	[0x0D00 resolution 22 continue with_actions]
-place=locality 	& cityxx!=yes  				{set cityxx=yes}	[0x1100 resolution 22 continue with_actions]
+# place=locality 	& cityxx!=yes  				{set cityxx=yes}	[0x1100 resolution 22 continue with_actions] # 08.05.2025 removed for better visibility
 place=isolated_dwelling	& cityxx!=yes  		{set cityxx=yes}	[0x0D00 resolution 22 continue with_actions]
 
 # markiere die Ländernamen
@@ -140,7 +140,7 @@ aeroway=terminal 																								[0x5900 resolution 24]
 # https://wiki.openstreetmap.org/wiki/Amenity
 # -------------------------------------------------------------------------------------
 amenity=bar [0x2d02 resolution 24]
-amenity=bbq | leisure=firepit [0x11702 resolution 24]
+# amenity=bbq | leisure=firepit [0x11702 resolution 24]
 amenity=biergarten [0x2d02 resolution 24]
 amenity=cafe [0x2a0e resolution 24]
 amenity=fast_food & cuisine=grill [0x2a03 resolution 24]
@@ -199,26 +199,26 @@ shop=car_rental [0x2f02 resolution 24]
 amenity=car_rental [0x2f02 resolution 24]
 amenity=car_sharing [0x2f02 resolution 24]
 amenity=car_wash [0x2f0e resolution 24]
-amenity=charging_station [0x1160b resolution 24] # road
+# amenity=charging_station [0x1160b resolution 24] # road
 amenity=ferry_terminal [0x2f1a resolution 22]  #(ist als local Government Building gekennzeichnet - offiziell gibt es kein Ferry Terminal in Garmin)
 # amenity=fuel & fuel:HGV_diesel=yes [ 0x2f16 resolution 23]
 amenity=fuel & shop=convenience [ 0x2e06 resolution 24 continue]
 amenity=fuel|shop=fuel [0x2f01 resolution 24 continue]
 amenity=fuel|shop=fuel [0x1160A resolution 23]
 amenity=parking [0x2f0b resolution 24 ] # 20.03.2018
-# amenity=motorcycle_parking [0x4d00 resolution 24 ] # 20.03.2018 removed
-amenity=taxi [0x2f17 resolution 24]
+amenity=motorcycle_parking [0x4d00 resolution 24 ] # 20.03.2018 removed # 08.05.2025 added 
+# amenity=taxi [0x2f17 resolution 24]
 
 # -------------------------------------------------------------------------------------
 railway=station | railway=tram_stop  					[0x2f1f resolution 24]
 ( public_transport=platform & rail=yes ) | railway=halt [0x2f1f resolution 24]
-public_transport=platform | highway=bus_stop 			[0x2f08 resolution 24]
+# public_transport=platform | highway=bus_stop 			[0x2f08 resolution 24]
 # -------------------------------------------------------------------------------------
 # Financial
 # https://wiki.openstreetmap.org/wiki/Amenity
 # -------------------------------------------------------------------------------------
-amenity=atm { name '${operator}: ${name}' | '${name}' | '${operator}' } 		[0x2f1d resolution 24]
-amenity=bank { name '${operator}: ${name}' | '${name}' | '${operator}' } 	 	[0x2f06 resolution 24]
+# amenity=atm { name '${operator}: ${name}' | '${name}' | '${operator}' } 		[0x2f1d resolution 24]
+# amenity=bank { name '${operator}: ${name}' | '${name}' | '${operator}' } 	 	[0x2f06 resolution 24]
 # amenity=bureau_de_change [0x2f06 resolution 24]
 # -------------------------------------------------------------------------------------
 # Healthcare
@@ -227,7 +227,7 @@ amenity=bank { name '${operator}: ${name}' | '${name}' | '${operator}' } 	 	[0x2
 # -------------------------------------------------------------------------------------
 # amenity=baby_hatch [0x2c05 resolution 24]
 healthcare=hospital | amenity=hospital | amenity=clinic [0x3002 resolution 22]
-healthcare=* | amenity=dentist | amenity=doctors [0x3002 resolution 24]
+# healthcare=* | amenity=dentist | amenity=doctors [0x3002 resolution 24]
 amenity=pharmacy [0x2e05 resolution 24]
 # amenity=veterinary [0x3002 resolution 24]
 # -------------------------------------------------------------------------------------
@@ -268,9 +268,10 @@ amenity=crypt [0x2c0b resolution 24]
 # amenity=dojo [0x1000 resolution 24]
 amenity=embassy & country=* { set name='${country} ${name|def:}' } [0x3000 resolution 23]
 amenity=embassy & country!=* [0x3000 resolution 23 ]
-amenity=fire_station [0x3008 resolution 24]
+# amenity=fire_station [0x3008 resolution 24]
 # amenity=game_feeding [0x1000 resolution 24]
-landuse=cemetery|landuse=cemetary|amenity=grave_yard | historic=tomb 	[0x6403 resolution 24]
+# landuse=cemetery|landuse=cemetary|amenity=grave_yard | historic=tomb 	[0x6403 resolution 24]
+amenity=grave_yard | historic=tomb 	[0x6403 resolution 24]
 # amenity=hunting_stand [0x1150B resolution 24]			# Hans: Raus am 4.2.2020
 amenity=internet_cafe [0x1150C  resolution 24]
 # amenity=kneipp_water_cure [0x1100 resolution 24]
@@ -278,34 +279,34 @@ amenity=marketplace [0x2e15 resolution 24]
 # amenity=photo_booth [0x1100 resolution 24]
 amenity=place_of_worship | historic=church [0x2c0b resolution 23]
 amenity=police [0x3001 resolution 24]
-amenity=post_box [0x640f resolution 24]
+# amenity=post_box [0x640f resolution 24]
 amenity=post_office [0x2f05 resolution 24]
 # amenity=prison [0x11701 resolution 24]	# road
 # amenity=public_bath [0x1100 resolution 24]
 # amenity=ranger_station [0x1100 resolution 24]
 amenity=recycling [0x2f15 resolution 24]
 # amenity=rescue_station [0x1100 resolution 24]
-tourism=picnic_site | anemity=table | leisure=picnic_table [0x4a00 resolution 24]
+# tourism=picnic_site | anemity=table | leisure=picnic_table [0x4a00 resolution 24]
 # amenity=telephone [0x2f12 resolution 24 ]
 # amenity=toilets | highway=rest_area [0x4e00 resolution 24] # 20.03.2018 removed - zu viele zu sehen
-amenity=townhall [0x3003 resolution 24]
+# amenity=townhall [0x3003 resolution 24]
 # amenity=vending_machine [0x1100 resolution 24]
 # amenity=waste_basket [0x1100 resolution 24]
 # amenity=waste_disposal [0x1100 resolution 24]
 # amenity=waste_transfer_station [0x1100 resolution 24]
-amenity=watering_place [0x1100 resolution 24]
-amenity=drinking_water | amenity=water_point | man_made=drinking_fountain | man_made=water_well | man_made=water_tap [0x5000 resolution 24 ]
+# amenity=watering_place [0x1100 resolution 24]
+# amenity=drinking_water | amenity=water_point | man_made=drinking_fountain | man_made=water_well | man_made=water_tap [0x5000 resolution 24 ]
 # -------------------------------------------------------------------------------------
 # User defined
 # -------------------------------------------------------------------------------------
 amenity=border_control | barrier=border_control [0x3006 resolution 20]
-amenity=car_club [0x2f0d resolution 24]
-amenity=concert_hall [0x2c09 resolution 24]
-amenity=conference_centre [0x2c09 resolution 24]
-amenity=convention_center [0x2c09 resolution 24]
-amenity=emergency_phone [0x2f12 resolution 24 ]
+# amenity=car_club [0x2f0d resolution 24]
+# amenity=concert_hall [0x2c09 resolution 24]
+# amenity=conference_centre [0x2c09 resolution 24]
+# amenity=convention_center [0x2c09 resolution 24]
+# amenity=emergency_phone [0x2f12 resolution 24 ]
 # amenity=public_building should not be used but office=government
-amenity=public_building | office=government [0x3007 resolution 24]
+# amenity=public_building | office=government [0x3007 resolution 24]
 
 # -------------------------------------------------------------------------------------
 # Landuse
@@ -363,15 +364,15 @@ military=barracks [0x640b resolution 24]
 # escape_game
 # fishing
 # leisure=fitness_centre [0x2d0a resolution 24]
-leisure=golf_course [0x2d05 resolution 24]
+# leisure=golf_course [0x2d05 resolution 24]
 # leisure=garden & name=* [0x2c06 resolution 24]
 # hackerspace
 # horse_riding
 # leisure=ice_rink [0x2d08 resolution 24]
 leisure=marina [0x4300 resolution 24]
 # leisure=miniature_golf
-leisure=nature_reserve & name=* [0x6612 resolution 24]
-leisure=park [0x2c06 resolution 24]
+# leisure=nature_reserve & name=* [0x6612 resolution 24]
+# leisure=park [0x2c06 resolution 24]
 # leisure=pitch { name '${name} (${sport})' | '${name}' } [0x2c08 resolution 24]
 leisure=stadium { name '${name} (${sport})' | '${name}' } [0x2c08 resolution 24]
 # leisure=playground [0x2c06 resolution 24]
@@ -379,11 +380,11 @@ leisure=stadium { name '${name} (${sport})' | '${name}' } [0x2c08 resolution 24]
 # leisure=slipway
 # leisure=sports_center | leisure=sports_centre { name '${name} (${sport})' | '${name}' } [0x2d0a resolution 24]
 # leisure=summer_camp
-leisure=swimming_area | sport=swimming | leisure=swimming_pool | leisure=water_park [0x2d09 resolution 24]
-leisure=track { name '${name} (${sport})' | '${name}' } [0x2c08 resolution 24]
+# leisure=swimming_area | sport=swimming | leisure=swimming_pool | leisure=water_park [0x2d09 resolution 24]
+# leisure=track { name '${name} (${sport})' | '${name}' } [0x2c08 resolution 24]
 # leisure=wildlife_hide
-leisure=common & name=* [0x2c06 resolution 24]
-leisure=recreation_ground [0x2c08 resolution 24]
+# leisure=common & name=* [0x2c06 resolution 24]
+# leisure=recreation_ground [0x2c08 resolution 24]
 # -------------------------------------------------------------------------------------
 # Highway
 # -------------------------------------------------------------------------------------
@@ -425,10 +426,10 @@ historic=monastery | amenity=monastery [0x2c0b resolution 23] # longer visible
 # -------------------------------------------------------------------------------------
 # https://wiki.openstreetmap.org/wiki/Key:man_made
 # -------------------------------------------------------------------------------------
-man_made=tower|man_made=mast|man_made=beacon|man_made=communications_tower [0x6411 resolution 24]
+# man_made=tower|man_made=mast|man_made=beacon|man_made=communications_tower [0x6411 resolution 24]
 man_made=campanile|landmark=chimney|man_made= chimney [0x11505 resolution 24]
 man_made=lighthouse [0x1150D resolution 24]
-# man_made=watermill | man_made=windmill [0x11502 resolution 24]
+man_made=watermill | man_made=windmill [0x11502 resolution 24]
 # man_made= bunker_silo
 # man_made= crane
 # man_made= cutline
@@ -444,17 +445,17 @@ man_made=lighthouse [0x1150D resolution 24]
 landuse=basin|landuse=reservoir [0x650f resolution 24]
 natural=beach 					[0x6604 resolution 24]
 natural=cape 					[0x6606 resolution 24]
-natural=cave_entrance 			[0x11708 resolution 24]
-natural=cliff 					[0x6607 resolution 24]
+# natural=cave_entrance 			[0x11708 resolution 24]
+# natural=cliff 					[0x6607 resolution 24]
 natural=glacier 				[0x650a resolution 20]
 natural=peak {name '${name|def:}${ele|height:m=>ft|def:}' } [0x6616 resolution 20]
 natural=rock 					[0x6614 resolution 24]
-natural=spring 					[0x6511 resolution 24]
+# natural=spring 					[0x6511 resolution 24]
 natural=stream 					[0x6512 resolution 24]
 natural=volcano 				[0x2c0c resolution 24]
 natural=water & name=* 			[0x6603 resolution 24]
 natural=waterfall | waterway=waterfall [0x6508 resolution 24]
-natural=wetland & name=* 		[0x6513 resolution 24]
+# natural=wetland & name=* 		[0x6513 resolution 24]
 # -------------------------------------------------------------------------------------
 # Shop
 # -------------------------------------------------------------------------------------
@@ -471,7 +472,7 @@ shop=department_store [0x2e01 resolution 24]
 shop=general [0x2e03 resolution 24]
 # shop=beauty [0x2f10 resolution 24]
 # shop=chemist | shop=cosmetics [0x2e05  resolution 24]
-shop=hairdresser [0x11617 resolution 24]
+# shop=hairdresser [0x11617 resolution 24]
 # amenity=supermarket is superceded by shop=supermarket
 amenity=supermarket | shop=supermarket [0x2e02 resolution 24]
 # shop=clothes [0x2e07 resolution 24]
@@ -501,7 +502,7 @@ shop=car [0x2f07 resolution 24]
 shop=car_dealer [0x2f07 resolution 24]
 shop=car_parts [0x2f03 resolution 24]
 shop=car_repair [0x2f03 resolution 24]
-shop=car_wrecker [0x2f0a resolution 24]
+# shop=car_wrecker [0x2f0a resolution 24]
 shop=tires [0x2f07 resolution 24]
 shop=tyres [0x2f07 resolution 24]
 # -------------------------------------------------------------------------------------
@@ -516,7 +517,7 @@ shop=tyres [0x2f07 resolution 24]
 (shop=motorcycle|shop=ATV|shop=atv) [0x11619 resolution 20-24  ] # Alle anderen Motorcycle Dealer
 # -------------------------------------------------------------------------------------
 # Others
-shop=laundry |shop=dry_cleaning [0x11703 resolution 24]
+# shop=laundry |shop=dry_cleaning [0x11703 resolution 24]
 shop=* & shop!=no & shop!=none [0x2e00 resolution 24]
 # -------------------------------------------------------------------------------------
 # Sport
@@ -526,12 +527,12 @@ shop=* & shop!=no & shop!=none [0x2e00 resolution 24]
 # -------------------------------------------------------------------------------------
 # sport=9pin [0x2d07 resolution 24]
 # sport=10pin | leisure=bowling_alley [0x2d07 resolution 24]
-sport=airport [0x5900 resolution 20-24  ]
+# sport=airport [0x5900 resolution 20-24  ]
 # sport=multi [0x2d0a resolution 24]
-sport=ice_skating|sport=ice_hockey|sport=skating [0x2d08 resolution 24]
+# sport=ice_skating|sport=ice_hockey|sport=skating [0x2d08 resolution 24]
 # sport=skiing [0x2d06 resolution 24]
-sport=motocross  [0x11610 resolution 24  ]
-sport=motor  [0x11610 resolution 24  ]
+# sport=motocross  [0x11610 resolution 24  ]
+# sport=motor  [0x11610 resolution 24  ]
 # -------------------------------------------------------------------------------------
 # Tourism
 # -------------------------------------------------------------------------------------
@@ -608,7 +609,7 @@ tourism=motel 																		[0x11601 resolution 22]
 # .....................................
 # Prüfen ob du die Informationen wirklich alle haben willst! - Nein die Karte ist Überfrachtet mit Anzeigetafeln - die braucht es nur in Wanderkarten
 # Touristeninformation. [point, closedway]
-#tourism=information & information != guidepost {name '${name} - ${description} (${operator})'|
+# tourism=information & information != guidepost {name '${name} - ${description} (${operator})'|
 #'${name} - (${description})' | '${name}' | '${description}' |
 #'${operator}' | '${ref}'} 															[0x4c00 resolution 24]
 # Tourist Offices/Terminals (inhouse, presumably)
@@ -617,7 +618,7 @@ tourism=motel 																		[0x11601 resolution 22]
 #'${operator}' | '${ref}'} 															[0x4c00 resolution 24]
 # Other types
 #tourism = information & information = map  											[0x4c01 resolution 24]
-#information=guidepost 																[0x4c02 resolution 24]
+# information=guidepost 																[0x4c02 resolution 24]
 
 # .....................................
 tourism=yes							 												[0x2c04 resolution 23-24 ]

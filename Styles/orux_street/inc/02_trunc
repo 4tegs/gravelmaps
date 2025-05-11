@@ -1,0 +1,32 @@
+﻿# ............................................................
+# !!! - trunk - !!! Schnellstraße
+# Geprüft am 22.07.2020
+# Reworked 08.05.2025
+# ............................................................
+#-- routing trunk
+highway=trunk  		& tunnel!=yes					[0x02 road_class=4 road_speed=6 resolution 24 continue] # 12 bit
+highway=trunk_link  & tunnel!=yes					[0x02 road_class=4 road_speed=4 resolution 24 continue] # 12 bit
+
+highway=trunk  		& tunnel=yes					[0x13 road_class=4 road_speed=6 resolution 24 continue] # 10 bit
+highway=trunk_link  & tunnel=yes					[0x13 road_class=4 road_speed=4 resolution 24 continue] # 10 bit
+
+#-- zoom standard 
+(highway=trunk | highway=trunk_link) & tunnel!=yes 	[0x10004 resolution 23-20 continue] # 10 bit
+(highway=trunk | highway=trunk_link)  			 	[0x10005 resolution 19-18 continue] # 8 bit - Beachte: Wenn die Area bei den Tunnel nicht mehr behandelt wird, dann muss sie es hier werden!
+
+#-- zoom tunnel
+(highway=trunk | highway=trunk_link) & tunnel=yes 	[0x10501 resolution 23-20 continue]	# 10 bit
+
+#-- zoom bridges
+(highway=trunk | highway=trunk_link) & bridge=yes 	[0x10101 resolution 23-21 continue] # 16 bit (je 2 Rand ; je 1 Abstand = 10 Innenraum)
+(highway=trunk | highway=trunk_link) & bridge=yes 	[0x10100 resolution 24]             # 18 bit (je 2 Rand ; je 1 Abstand = 12 Innenraum)
+
+# ....................................
+# Regional & International hiking network
+# ....................................
+# (highway=trunk | highway=trunk_link) & (network=lwn|network=rwn) {name '${PR}'} [0x10e02 resolution 22 continue]		 #    Disabled: 2023-12-19
+# (highway=trunk | highway=trunk_link) & (network=nwn|network=iwn) {name '${GR}'} [0x10e01 resolution 22 continue]		 #    Disabled: 2023-12-19
+# .....................
+#  Radwege
+# .....................
+# (highway=trunk | highway=trunk_link) & route_refbike=yes {name '${bikeref|highway-symbol:oval}'} [0x10e03 resolution 22] 
