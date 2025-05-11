@@ -98,6 +98,8 @@ You find 6 different TYP files in the following design:
 | orux-street.typ | Special map layout for use with Android devices running the street style for OruxMaps. |
 |  |  |
 
+To compile the maps, it is necessary to have the TYP files in two formats: *.typ and *.txt. Make sure to have the *.txt in UTF-8-BOM Format!
+
 ### STYLE
 
 Each style is made of a variety definition files that describe what is displayed (roads, points, polygons) and when (depending on the zoom level). You can learn how the definition is done by using the mkgmap style manual: https://www.mkgmap.org.uk/doc/pdf/style-manual.pdf
@@ -112,7 +114,6 @@ These styles are available:
 | orux-street | This style is a mix from the orux and the street layout, made for use with Android devices running street style Oruxmaps.   |
 | rad | This is my personal adaption of the standard style for use with my road-bicycle. It has a reduced layout, missing "not so good" tracks. |
 
-To compile the maps, it is necessary to have the style in two formats: *.typ and *.txt. Make sure to have the *.txt in UTF-8-BOM Format!
 
 ## Special
 
