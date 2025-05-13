@@ -9,7 +9,7 @@ For personal reasons, I retired from motorcycling on unknown and unpaved roads i
 
 <p>My commitment:<br/>
 I will continue to maintain the maps in 2025. In 2026, as today, I will continue to publish the maps quarterly on https://gravelmaps.de.
-End of 2027 however, I will shut down the domain.  </p>
+In 2027 however, I will either keep the maps untouched or may shut down the domain. </p>
 
 If there is anyone who would like to take over the project, please get in touch.  
 
