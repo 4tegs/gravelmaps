@@ -231,7 +231,7 @@ highway = track & tracktype ~ 'grade[4-5]' &
 highway=* & 
 	(surface=asphalt | surface=paved | surface=sett | surface=chipseal | 										   
     surface=concrete | surface=concrete:lanes | surface=concrete:plates | 
-    surface=paving_stones  | surface=cobblestone  | 
+    surface=paving_stones  | paving_stones:lanes | surface=cobblestone  | 
    	surface=cobblestone:flattened  | surface=metal  | surface=wood | surface=unhewn_cobblestone)
 { set mkgmap:unpaved=0 ; set EnduroOffroad=no; }
 
@@ -256,17 +256,16 @@ highway=* & mkgmap:unpaved!=0 & (
     tracktype ~ 'grade[2-5]')
 { add mkgmap:unpaved=1 }
 
+highway=* & EnduroOffroad!=no & sac_scale = * { add mkgmap:unpaved=1 } # 2025 07 06: necessary as some people are over-tagging roads with hiking scales. See Bussoleno City Center
+
 highway = *
 & (surface = ground  | surface = compacted   | surface = dirt |
    surface = earth   | surface = grass       | surface = grass_paver |
    surface = gravel  | surface = fine_gravel | surface = mud |
    surface = wood    | surface = pebblestone | surface = sand |
    surface = unpaved |
-#   mtb:scale = * |
    tracktype ~ 'grade[2-5]' |
-#   smoothness ~ 'bad|very_bad|horrible|very_horrible|impassable' |
    smoothness ~ 'very_bad|horrible|very_horrible|impassable' |
-   sac_scale = * |
    sport = via_ferrata |
    highway = via_ferrata   
    )
