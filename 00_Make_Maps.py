@@ -100,16 +100,38 @@ def download_from_geofabrik(WGET_exe, pbf_folder, o5m_path, country_name, merged
         print("Skip\tDownload \t" + country_name)
     else:
         print("\tDownload \t" + country_name)
-        result= subprocess.run(WGET_exe + " -q -t 8 http://download.geofabrik.de/europe/"+GeoFabrik_filename+ " -P " + pbf_folder)
-        if result.returncode != 0: result = subprocess.run(WGET_exe + " -q -t 8 http://download.geofabrik.de/europe/germany/"+GeoFabrik_filename+ " -P " + pbf_folder)
-        if result.returncode != 0: result = subprocess.run(WGET_exe + " -q -t 8 http://download.geofabrik.de/europe/germany/baden-wuerttemberg/"+GeoFabrik_filename+ " -P " + pbf_folder)
-        if result.returncode != 0: result = subprocess.run(WGET_exe + " -q -t 8 http://download.geofabrik.de/europe/france/"+GeoFabrik_filename+ " -P " + pbf_folder)
-        if result.returncode != 0: result = subprocess.run(WGET_exe + " -q -t 8 http://download.geofabrik.de/europe/italy/"+GeoFabrik_filename+ " -P " + pbf_folder)
-        if result.returncode != 0: result = subprocess.run(WGET_exe + " -q -t 8 http://download.geofabrik.de/africa/"+GeoFabrik_filename+ " -P " + pbf_folder)
-        if result.returncode != 0: result = subprocess.run(WGET_exe + " -q -t 8 http://download.geofabrik.de/asia/"+GeoFabrik_filename+ " -P " + pbf_folder)
-        if result.returncode != 0: result = subprocess.run(WGET_exe + " -q -t 8 http://download.geofabrik.de/central-america/"+GeoFabrik_filename+ " -P " + pbf_folder)
-        if result.returncode != 0: error_message(8, GeoFabrik_filename)
-        # o5m_mit_path = o5m_path + "\\" + land + ".o5m"
+        
+        if   country_name == "baden-wuerttemberg-latest":           result= subprocess.run(WGET_exe + " -q -t 8 https://download.geofabrik.de/europe/germany/"+GeoFabrik_filename+ " -P " + pbf_folder)
+        elif country_name == "bayern-latest":                       result= subprocess.run(WGET_exe + " -q -t 8 https://download.geofabrik.de/europe/germany/"+GeoFabrik_filename+ " -P " + pbf_folder)
+        elif country_name == "hessen-latest":                       result= subprocess.run(WGET_exe + " -q -t 8 https://download.geofabrik.de/europe/germany/"+GeoFabrik_filename+ " -P " + pbf_folder)
+        elif country_name == "rheinland-pfalz-latest":              result= subprocess.run(WGET_exe + " -q -t 8 https://download.geofabrik.de/europe/germany/"+GeoFabrik_filename+ " -P " + pbf_folder)
+        
+        elif country_name == "alsace-latest":                       result= subprocess.run(WGET_exe + " -q -t 8 https://download.geofabrik.de/europe/france/"+GeoFabrik_filename+ " -P " + pbf_folder)
+        elif country_name == "franche-comte-latest":                result= subprocess.run(WGET_exe + " -q -t 8 https://download.geofabrik.de/europe/france/"+GeoFabrik_filename+ " -P " + pbf_folder)
+        elif country_name == "lorraine-latest":                     result= subprocess.run(WGET_exe + " -q -t 8 https://download.geofabrik.de/europe/france/"+GeoFabrik_filename+ " -P " + pbf_folder)
+        elif country_name == "rhone-alpes-latest":                  result= subprocess.run(WGET_exe + " -q -t 8 https://download.geofabrik.de/europe/france/"+GeoFabrik_filename+ " -P " + pbf_folder)
+        elif country_name == "provence-alpes-cote-d-azur-latest":   result= subprocess.run(WGET_exe + " -q -t 8 https://download.geofabrik.de/europe/france/"+GeoFabrik_filename+ " -P " + pbf_folder)
+        
+        elif country_name == "nord-ovest-latest":                   result= subprocess.run(WGET_exe + " -q -t 8 https://download.geofabrik.de/europe/italy/"+GeoFabrik_filename+ " -P " + pbf_folder)
+        elif country_name == "nord-est-latest":                     result= subprocess.run(WGET_exe + " -q -t 8 https://download.geofabrik.de/europe/italy/"+GeoFabrik_filename+ " -P " + pbf_folder)
+        
+        elif country_name == "china-latest":                        result= subprocess.run(WGET_exe + " -q -t 8 https://download.geofabrik.de/asia/"+GeoFabrik_filename+ " -P " + pbf_folder)
+        elif country_name == "iran-latest":                         result= subprocess.run(WGET_exe + " -q -t 8 https://download.geofabrik.de/asia/"+GeoFabrik_filename+ " -P " + pbf_folder)
+        elif country_name == "kazakhstan-latest":                   result= subprocess.run(WGET_exe + " -q -t 8 https://download.geofabrik.de/asia/"+GeoFabrik_filename+ " -P " + pbf_folder)
+        elif country_name == "kyrgyzstan-latest":                   result= subprocess.run(WGET_exe + " -q -t 8 https://download.geofabrik.de/asia/"+GeoFabrik_filename+ " -P " + pbf_folder)
+        elif country_name == "mongolia-latest":                     result= subprocess.run(WGET_exe + " -q -t 8 https://download.geofabrik.de/asia/"+GeoFabrik_filename+ " -P " + pbf_folder)
+        elif country_name == "tajikistan-latest":                   result= subprocess.run(WGET_exe + " -q -t 8 https://download.geofabrik.de/asia/"+GeoFabrik_filename+ " -P " + pbf_folder)
+        elif country_name == "turkmenistan-latest":                 result= subprocess.run(WGET_exe + " -q -t 8 https://download.geofabrik.de/asia/"+GeoFabrik_filename+ " -P " + pbf_folder)
+        elif country_name == "uzbekistan-latest":                   result= subprocess.run(WGET_exe + " -q -t 8 https://download.geofabrik.de/asia/"+GeoFabrik_filename+ " -P " + pbf_folder)
+        
+        elif country_name == "algeria-latest":                      result= subprocess.run(WGET_exe + " -q -t 8 https://download.geofabrik.de/africa/"+GeoFabrik_filename+ " -P " + pbf_folder)
+        elif country_name == "morocco-latest":                      result= subprocess.run(WGET_exe + " -q -t 8 https://download.geofabrik.de/africa/"+GeoFabrik_filename+ " -P " + pbf_folder)
+        elif country_name == "tunisia-latest":                      result= subprocess.run(WGET_exe + " -q -t 8 https://download.geofabrik.de/africa/"+GeoFabrik_filename+ " -P " + pbf_folder)
+        
+        elif country_name == "costa-rica-latest":                   result= subprocess.run(WGET_exe + " -q -t 8 https://download.geofabrik.de/central-america/"+GeoFabrik_filename+ " -P " + pbf_folder)
+        
+        else:                                                       result= subprocess.run(WGET_exe + " -q -t 8 https://download.geofabrik.de/europe/"+GeoFabrik_filename+ " -P " + pbf_folder)
+        
         if os.path.exists(o5m_mit_path):                                # !!! Remove remark after Test
             os.remove(o5m_mit_path)                                     # !!! Remove remark after Test
 
